@@ -1,0 +1,3123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP | Админ-панель</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* === МИНИМАЛИСТИЧНАЯ ЦВЕТОВАЯ ПАЛИТРА === */
+  :root {
+    /* Основные цвета */
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-dark: #1A1A1A;
+    --gray-medium: #333333;
+    --gray-light: #666666;
+    --gray-soft: #F5F5F5;
+    
+    /* Акцентные цвета */
+    --accent: #111111;
+    --accent-light: #222222;
+    --border: #E0E0E0;
+    
+    /* Статусы */
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --info: #3498db;
+    --profit: #2ecc71;
+    --expense: #e74c3c;
+    
+    /* Текст */
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --text-light: #999999;
+    
+    /* Размеры */
+    --container-width: 1400px;
+    --header-height: 80px;
+    
+    /* Переходы */
+    --transition: 0.2s ease;
+    
+    /* Шрифты */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-logo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  /* === БАЗОВЫЕ СТИЛИ === */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* === ЛОГИН === */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--gray-soft);
+    padding: 2rem;
+  }
+
+  .login-box {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--border);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .login-icon {
+    font-size: 2rem;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-logo);
+  }
+
+  .login-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 1rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--black);
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .login-btn:hover {
+    background: var(--gray-dark);
+  }
+
+  .error-message {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--danger);
+    padding: 1rem;
+    border-radius: 0;
+    margin-top: 1.5rem;
+    display: none;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    font-size: 0.9rem;
+  }
+
+  /* === АДМИН КОНТЕЙНЕР === */
+  .admin-container {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .admin-logo-icon {
+    font-family: var(--font-logo);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--black);
+  }
+
+  .admin-logo-text {
+    font-family: var(--font-logo);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--black);
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .admin-time {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .logout-btn {
+    background: var(--white);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .logout-btn:hover {
+    background: var(--gray-soft);
+  }
+
+  /* === НАВИГАЦИЯ === */
+  .admin-nav {
+    background: var(--white);
+    padding: 1rem 0;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    margin-top: var(--header-height);
+    position: sticky;
+    top: var(--header-height);
+    z-index: 999;
+  }
+
+  .nav-tab {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    border-radius: 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .nav-tab:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-tab.active {
+    color: var(--text-primary);
+    font-weight: 600;
+    border-bottom: 2px solid var(--black);
+  }
+
+  .admin-content {
+    padding: 2rem 0;
+  }
+
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === КАРТОЧКИ СТАТИСТИКИ === */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .stat-card:hover {
+    border-color: var(--gray-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+  }
+
+  .stat-change {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0;
+  }
+
+  .stat-change.positive {
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--profit);
+  }
+
+  .stat-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--expense);
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* === БАДЖИ СТАТУСОВ === */
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border);
+  }
+
+  .status-badge-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    font-size: 1.2rem;
+  }
+
+  .status-badge.new .status-badge-icon {
+    background: var(--gray-soft);
+    color: var(--info);
+  }
+
+  .status-badge.processing .status-badge-icon {
+    background: var(--gray-soft);
+    color: var(--warning);
+  }
+
+  .status-badge.delivery .status-badge-icon {
+    background: var(--gray-soft);
+    color: #9b59b6;
+  }
+
+  .status-badge.completed .status-badge-icon {
+    background: var(--gray-soft);
+    color: var(--success);
+  }
+
+  .status-badge-content {
+    flex: 1;
+  }
+
+  .status-badge-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .status-badge-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* === КОНТЕЙНЕР ФОРМ === */
+  .form-container {
+    background: var(--white);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--black);
+  }
+
+  textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  /* === МАРЖА И СТОИМОСТЬ === */
+  .cost-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--gray-soft);
+    border: 1px solid var(--border);
+  }
+
+  .margin-indicator {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .margin-good {
+    background: var(--profit);
+    color: var(--white);
+  }
+
+  .margin-warning {
+    background: var(--warning);
+    color: var(--white);
+  }
+
+  .margin-bad {
+    background: var(--danger);
+    color: var(--white);
+  }
+
+  /* === ЗАГРУЗКА ИЗОБРАЖЕНИЙ === */
+  .image-upload-area {
+    border: 2px dashed var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 1rem;
+  }
+
+  .image-upload-area:hover {
+    border-color: var(--gray-light);
+  }
+
+  .image-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .preview-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+
+  .preview-image:hover {
+    border-color: var(--black);
+  }
+
+  /* === КНОПКИ === */
+  .btn {
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--gray-dark);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--gray-soft);
+  }
+
+  .btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* === ТАБЛИЦЫ === */
+  .table-container {
+    background: var(--white);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .table-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .table-filters {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table th {
+    background: var(--gray-soft);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .data-table tr:hover {
+    background: var(--gray-soft);
+  }
+
+  /* === БАДЖИ ТАБЛИЦ === */
+  .table-badge {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+  }
+
+  .badge-status {
+    background: var(--gray-soft);
+    color: var(--text-primary);
+  }
+
+  .badge-profit {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .badge-profit.positive {
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--profit);
+  }
+
+  .badge-profit.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--expense);
+  }
+
+  .table-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-soft);
+  }
+
+  .action-btn:hover {
+    background: var(--border);
+  }
+
+  .action-btn i {
+    font-size: 0.9rem;
+  }
+
+  /* === ГРАФИКИ === */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-container {
+    background: var(--white);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+  }
+
+  .chart-title {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .chart-wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+  }
+
+  /* === ГОТОВЫЕ ОБРАЗЫ === */
+  .looks-management {
+    background: var(--white);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .look-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .look-image-preview {
+    margin-top: 1rem;
+    border: 2px dashed var(--border);
+    padding: 2rem;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--gray-soft);
+  }
+
+  .look-image-preview img {
+    max-width: 100%;
+    max-height: 180px;
+    display: none;
+  }
+
+  .look-products-select {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    padding: 1rem;
+    background: var(--white);
+  }
+
+  .look-product-option {
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .look-product-option:hover {
+    background: var(--gray-soft);
+  }
+
+  .look-product-option.selected {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+
+  .looks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .look-card-admin {
+    background: var(--white);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+
+  .look-card-admin:hover {
+    border-color: var(--black);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .look-card-image {
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .look-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .look-card-content {
+    padding: 1.5rem;
+  }
+
+  .look-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .look-card-tag {
+    display: inline-block;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .look-card-products {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .look-card-products ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .look-card-products li {
+    padding: 0.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .look-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  /* === УВЕДОМЛЕНИЯ === */
+  .notification-admin {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: slideInRight 0.3s ease;
+    max-width: 300px;
+  }
+
+  .notification-admin.success {
+    border-left: 4px solid var(--success);
+  }
+
+  .notification-admin.error {
+    border-left: 4px solid var(--danger);
+  }
+
+  .notification-admin.warning {
+    border-left: 4px solid var(--warning);
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* === ЗАГРУЗКА === */
+  .loading-admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+
+  .spinner-admin {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--black);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* === АДАПТИВНОСТЬ === */
+  @media (max-width: 1200px) {
+    .charts-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .look-form-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-content {
+      padding: 1rem 0;
+    }
+    
+    .admin-nav {
+      padding: 1rem 0;
+      overflow-x: auto;
+    }
+    
+    .nav-tab {
+      padding: 0.8rem 1rem;
+      font-size: 0.8rem;
+    }
+    
+    .table-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    
+    .table-filters {
+      width: 100%;
+      flex-direction: column;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .badge-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .looks-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .looks-management {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-box {
+      padding: 2rem 1rem;
+    }
+    
+    .form-container {
+      padding: 1rem;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .data-table {
+      min-width: 600px;
+    }
+    
+    .notification-admin {
+      max-width: calc(100% - 40px);
+    }
+  }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/chart.js" rel="stylesheet">
+</head>
+<body>
+
+<!-- Логин -->
+<div id="loginContainer" class="login-container">
+  <div class="login-box">
+    <div class="login-header">
+      <div class="login-icon">👑</div>
+      <h1 class="login-title">DROP SHOP Admin</h1>
+      <p class="login-subtitle">Панель управления магазином</p>
+    </div>
+    
+    <div class="input-group">
+      <label class="input-label">Логин</label>
+      <input type="text" id="adminLogin" class="input-field" placeholder="Введите логин" value="admin">
+    </div>
+    
+    <div class="input-group">
+      <label class="input-label">Пароль</label>
+      <input type="password" id="adminPassword" class="input-field" placeholder="Введите пароль" value="123456">
+    </div>
+    
+    <button class="login-btn" onclick="loginAdmin()">
+      <i class="fas fa-sign-in-alt"></i> Войти в панель
+    </button>
+    
+    <div id="loginError" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> Неверный логин или пароль
+    </div>
+  </div>
+</div>
+
+<!-- Админ-панель -->
+<div id="adminPanel" class="admin-container">
+  <!-- Хедер -->
+  <header class="admin-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="admin-logo">
+          <div class="admin-logo-icon">DROP SHOP</div>
+          <div class="admin-logo-text">| Админ-панель</div>
+        </div>
+        
+        <div class="admin-actions">
+          <div class="admin-time" id="currentTime">00:00:00</div>
+          <button class="logout-btn" onclick="logoutAdmin()">
+            <i class="fas fa-sign-out-alt"></i> Выйти
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Навигация -->
+  <nav class="admin-nav">
+    <div class="container">
+      <button class="nav-tab active" onclick="switchTab('dashboard')">
+        <i class="fas fa-tachometer-alt"></i> Дашборд
+      </button>
+      <button class="nav-tab" onclick="switchTab('products')">
+        <i class="fas fa-box"></i> Товары
+      </button>
+      <button class="nav-tab" onclick="switchTab('addProduct')">
+        <i class="fas fa-plus-circle"></i> Добавить товар
+      </button>
+      <button class="nav-tab" onclick="switchTab('looks')">
+        <i class="fas fa-tshirt"></i> Готовые образы
+      </button>
+      <button class="nav-tab" onclick="switchTab('orders')">
+        <i class="fas fa-shopping-cart"></i> Заказы
+      </button>
+      <button class="nav-tab" onclick="switchTab('analytics')">
+        <i class="fas fa-chart-line"></i> Аналитика
+      </button>
+      <button class="nav-tab" onclick="switchTab('finance')">
+        <i class="fas fa-money-bill-wave"></i> Финансы
+      </button>
+      <button class="nav-tab" onclick="switchTab('settings')">
+        <i class="fas fa-cog"></i> Настройки
+      </button>
+    </div>
+  </nav>
+  
+  <!-- Контент -->
+  <div class="admin-content">
+    <div class="container">
+      <!-- Дашборд -->
+      <div id="dashboardTab" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon">💰</div>
+              <div class="stat-change positive">+12%</div>
+            </div>
+            <div class="stat-value revenue-value" id="totalRevenue">0 ₽</div>
+            <div class="stat-label">Общая выручка</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon">💵</div>
+              <div class="stat-change positive">+15%</div>
+            </div>
+            <div class="stat-value profit-value" id="totalProfit">0 ₽</div>
+            <div class="stat-label">Чистая прибыль</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon">📊</div>
+              <div class="stat-change positive">+8%</div>
+            </div>
+            <div class="stat-value margin-value" id="avgMargin">0%</div>
+            <div class="stat-label">Средняя маржа</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon">📦</div>
+              <div class="stat-change positive">+5%</div>
+            </div>
+            <div class="stat-value" id="totalOrders">0</div>
+            <div class="stat-label">Всего заказов</div>
+          </div>
+        </div>
+        
+        <div class="badge-grid">
+          <div class="status-badge new">
+            <div class="status-badge-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="status-badge-content">
+              <div class="status-badge-value" id="newOrders">0</div>
+              <div class="status-badge-label">Новые заказы</div>
+            </div>
+          </div>
+          
+          <div class="status-badge processing">
+            <div class="status-badge-icon">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div class="status-badge-content">
+              <div class="status-badge-value" id="processingOrders">0</div>
+              <div class="status-badge-label">В обработке</div>
+            </div>
+          </div>
+          
+          <div class="status-badge delivery">
+            <div class="status-badge-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <div class="status-badge-content">
+              <div class="status-badge-value" id="deliveryOrders">0</div>
+              <div class="status-badge-label">Ждет доставки</div>
+            </div>
+          </div>
+          
+          <div class="status-badge completed">
+            <div class="status-badge-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="status-badge-content">
+              <div class="status-badge-value" id="completedOrders">0</div>
+              <div class="status-badge-label">Завершено</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="charts-grid">
+          <div class="chart-container">
+            <div class="chart-title">📈 Динамика прибыли</div>
+            <div class="chart-wrapper">
+              <canvas id="profitChart"></canvas>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <div class="chart-title">📊 Распределение заказов</div>
+            <div class="chart-wrapper">
+              <canvas id="ordersChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Товары -->
+      <div id="productsTab" class="tab-content">
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">🏷️ Все товары</div>
+            <div class="table-filters">
+              <select id="productFilter" class="form-control" style="width: auto;" onchange="filterProducts()">
+                <option value="all">Все товары</option>
+                <option value="original">Оригиналы</option>
+                <option value="replica">Реплики</option>
+                <option value="highMargin">Высокая маржа</option>
+                <option value="lowMargin">Низкая маржа</option>
+              </select>
+              <input type="text" class="form-control" placeholder="Поиск товаров..." onkeyup="searchProducts(this.value)" style="min-width: 200px;">
+            </div>
+          </div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Себестоимость</th>
+                <th>Цена</th>
+                <th>Маржа</th>
+                <th>Прибыль</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="productsTable">
+              <!-- Товары загружаются через JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Добавить товар -->
+      <div id="addProductTab" class="tab-content">
+        <div class="form-container">
+          <div class="form-title">
+            <i class="fas fa-plus-circle"></i> Добавление нового товара
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Название товара *</label>
+              <input type="text" id="productName" class="form-control" placeholder="Например: Nike Air Jordan 1">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Категория *</label>
+              <select id="productCategory" class="form-control">
+                <option value="">Выберите категорию</option>
+                <option value="обувь">Обувь</option>
+                <option value="мужская">Мужская одежда</option>
+                <option value="женская">Женская одежда</option>
+                <option value="аксессуары">Аксессуары</option>
+                <option value="верхняя">Верхняя одежда</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Тип товара *</label>
+              <select id="productType" class="form-control">
+                <option value="">Выберите тип</option>
+                <option value="original">Оригинал</option>
+                <option value="replica">Реплика</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Статус *</label>
+              <select id="productAvailability" class="form-control">
+                <option value="in_stock">В наличии</option>
+                <option value="preorder">Под заказ</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Себестоимость (₽) *</label>
+              <input type="number" id="productCost" class="form-control" placeholder="5000" min="0" oninput="calculateMargin()">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Цена продажи (₽) *</label>
+              <input type="number" id="productPrice" class="form-control" placeholder="14990" min="0" oninput="calculateMargin()">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Доходность</label>
+              <div id="marginIndicator" class="cost-indicator">
+                <span id="profitAmount">0 ₽</span>
+                <span id="marginPercentage" class="margin-indicator margin-good">0%</span>
+              </div>
+              <small style="color: var(--text-secondary); display: block; margin-top: 0.3rem;">
+                Прибыль и маржа рассчитаются автоматически
+              </small>
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Количество на складе</label>
+              <input type="number" id="productStock" class="form-control" value="10" min="0">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Размеры (через запятую)</label>
+              <input type="text" id="productSizes" class="form-control" placeholder="40, 41, 42, 43, 44, 45">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Цвет</label>
+              <input type="text" id="productColor" class="form-control" placeholder="Черный">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Описание товара *</label>
+            <textarea id="productDescription" class="form-control" placeholder="Подробное описание товара..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Изображения (URL через запятую) *</label>
+            <div class="image-upload-area" onclick="document.getElementById('productImages').focus()">
+              <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-secondary);"></i>
+              <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">Нажмите чтобы добавить URL изображений</div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Рекомендуем использовать Imgur, Unsplash или аналогичные сервисы</div>
+            </div>
+            <input type="text" id="productImages" class="form-control" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg">
+            <div class="image-preview" id="imagePreview"></div>
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="addProduct()">
+              <i class="fas fa-save"></i> Сохранить товар
+            </button>
+            <button class="btn btn-secondary" onclick="resetProductForm()">
+              <i class="fas fa-redo"></i> Очистить форму
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Готовые образы -->
+      <div id="looksTab" class="tab-content">
+        <div class="looks-management">
+          <div class="form-title">
+            <i class="fas fa-tshirt"></i> Управление готовыми образами
+          </div>
+          
+          <div class="look-form-grid">
+            <div>
+              <div class="form-group">
+                <label class="form-label">Название образа *</label>
+                <input type="text" id="lookName" class="form-control" placeholder="Urban Vibes">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Тег (подпись на картинке)</label>
+                <input type="text" id="lookTag" class="form-control" placeholder="Уличный стиль">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Изображение (URL) *</label>
+                <input type="text" id="lookImage" class="form-control" placeholder="https://example.com/look-image.jpg" oninput="previewLookImage()">
+                <div class="look-image-preview">
+                  <img id="lookImagePreview" src="" alt="Предпросмотр образа">
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="form-group">
+                <label class="form-label">Товары в образе *</label>
+                <p class="form-label" style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                  Выберите товары из каталога (можно выбрать до 10 товаров)
+                </p>
+                <div class="look-products-select" id="lookProductsSelect">
+                  <!-- Товары будут загружены динамически -->
+                </div>
+                <div id="selectedProductsCount" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                  Выбрано товаров: 0
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="saveLook()">
+              <i class="fas fa-save"></i> Сохранить образ
+            </button>
+            <button class="btn btn-secondary" onclick="resetLookForm()">
+              <i class="fas fa-redo"></i> Очистить форму
+            </button>
+          </div>
+        </div>
+        
+        <div class="looks-grid" id="looksList">
+          <!-- Список образов будет загружен динамически -->
+        </div>
+      </div>
+      
+      <!-- Заказы -->
+      <div id="ordersTab" class="tab-content">
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">📦 История заказов</div>
+            <div class="table-filters">
+              <input type="date" id="orderDateFrom" class="form-control">
+              <input type="date" id="orderDateTo" class="form-control">
+              <select id="orderStatusFilter" class="form-control" onchange="filterOrders()">
+                <option value="all">Все статусы</option>
+                <option value="new">Новые</option>
+                <option value="processing">В обработке</option>
+                <option value="delivery">Ждет доставки</option>
+                <option value="completed">Завершенные</option>
+                <option value="cancelled">Отмененные</option>
+              </select>
+            </div>
+          </div>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Дата</th>
+                <th>Клиент</th>
+                <th>Товары</th>
+                <th>Сумма</th>
+                <th>Себестоимость</th>
+                <th>Прибыль</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable">
+              <!-- Заказы загружаются через JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Аналитика -->
+      <div id="analyticsTab" class="tab-content">
+        <div class="form-container">
+          <div class="form-title">
+            <i class="fas fa-chart-line"></i> Аналитика продаж
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Период</label>
+              <select id="analyticsPeriod" class="form-control" onchange="updateAnalytics()">
+                <option value="7">7 дней</option>
+                <option value="30" selected>30 дней</option>
+                <option value="90">90 дней</option>
+                <option value="365">Год</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Тип товаров</label>
+              <select id="analyticsType" class="form-control" onchange="updateAnalytics()">
+                <option value="all">Все товары</option>
+                <option value="original">Только оригиналы</option>
+                <option value="replica">Только реплики</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="chart-container">
+              <div class="chart-title">💰 Динамика выручки и прибыли</div>
+              <div class="chart-wrapper">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-title">📦 Продажи по категориям</div>
+              <div class="chart-wrapper">
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-container" style="margin-top: 2rem;">
+            <div class="table-header">
+              <div class="table-title">🏆 Топ-5 самых прибыльных товаров</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Товар</th>
+                  <th>Продано</th>
+                  <th>Выручка</th>
+                  <th>Прибыль</th>
+                  <th>Маржа</th>
+                </tr>
+              </thead>
+              <tbody id="topProductsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Финансы -->
+      <div id="financeTab" class="tab-content">
+        <div class="form-container">
+          <div class="form-title">
+            <i class="fas fa-money-bill-wave"></i> Финансовый отчет
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Отчетный период</label>
+              <select id="financePeriod" class="form-control" onchange="updateFinanceReport()">
+                <option value="today">Сегодня</option>
+                <option value="yesterday">Вчера</option>
+                <option value="week">Эта неделя</option>
+                <option value="month" selected>Этот месяц</option>
+                <option value="quarter">Этот квартал</option>
+                <option value="year">Этот год</option>
+                <option value="all">За все время</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Тип отчета</label>
+              <select id="financeType" class="form-control" onchange="updateFinanceReport()">
+                <option value="summary">Сводный отчет</option>
+                <option value="detailed">Детализированный</option>
+                <option value="profit">По прибыльности</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">💰</div>
+              </div>
+              <div class="stat-value revenue-value" id="periodRevenue">0 ₽</div>
+              <div class="stat-label">Выручка за период</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">💵</div>
+              </div>
+              <div class="stat-value profit-value" id="periodProfit">0 ₽</div>
+              <div class="stat-label">Чистая прибыль</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">📊</div>
+              </div>
+              <div class="stat-value margin-value" id="periodMargin">0%</div>
+              <div class="stat-label">Маржинальность</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">📦</div>
+              </div>
+              <div class="stat-value" id="periodOrders">0</div>
+              <div class="stat-label">Кол-во заказов</div>
+            </div>
+          </div>
+          
+          <div class="table-container" style="margin-top: 2rem;">
+            <div class="table-header">
+              <div class="table-title">📋 Детализированный финансовый отчет</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Заказов</th>
+                  <th>Выручка</th>
+                  <th>Себестоимость</th>
+                  <th>Прибыль</th>
+                  <th>Маржа</th>
+                </tr>
+              </thead>
+              <tbody id="financeDetailsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Настройки -->
+      <div id="settingsTab" class="tab-content">
+        <div class="form-container">
+          <div class="form-title">
+            <i class="fas fa-cog"></i> Настройки магазина
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Название магазина</label>
+              <input type="text" id="shopName" class="form-control" value="DROP SHOP Якутск">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Телефон для связи</label>
+              <input type="text" id="shopPhone" class="form-control" value="+7 (999) 123-45-67">
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Email для уведомлений</label>
+              <input type="email" id="shopEmail" class="form-control" value="info@dropshop-ykt.ru">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Адрес магазина</label>
+              <input type="text" id="shopAddress" class="form-control" value="Якутск, ул. Ленина, 15">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Токен Telegram бота</label>
+            <input type="text" id="telegramToken" class="form-control" placeholder="Введите токен бота">
+            <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+              Используется для отправки уведомлений о новых заказах
+            </small>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Chat ID Telegram</label>
+            <input type="text" id="telegramChatId" class="form-control" placeholder="Введите Chat ID">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Настройки доставки</label>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="deliveryYakutsk" checked> Доставка по Якутску
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="pickupAvailable" checked> Самовывоз
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="freeDelivery" checked> Бесплатная доставка от 5000₽
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="saveSettings()">
+              <i class="fas fa-save"></i> Сохранить настройки
+            </button>
+            <button class="btn btn-secondary" onclick="resetSettings()">
+              <i class="fas fa-redo"></i> Сбросить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notificationContainer"></div>
+
+<div class="loading-admin" id="loadingAdmin" style="display: none;">
+  <div class="spinner-admin"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ADMIN_CONFIG = {
+    login: "admin",
+    password: "123456"
+  };
+
+  let currentTab = 'dashboard';
+  let products = [];
+  let orders = [];
+  let looks = [];
+  let profitChart = null;
+  let ordersChart = null;
+  let revenueChart = null;
+  let categoryChart = null;
+  let editingLookId = null;
+
+  // Статусы заказов
+  const ORDER_STATUSES = {
+    'new': { name: 'Новый', class: 'badge-status', icon: 'fas fa-clock' },
+    'processing': { name: 'В обработке', class: 'badge-status', icon: 'fas fa-cogs' },
+    'delivery': { name: 'Ждет доставки', class: 'badge-status', icon: 'fas fa-truck' },
+    'completed': { name: 'Завершен', class: 'badge-status', icon: 'fas fa-check-circle' },
+    'cancelled': { name: 'Отменен', class: 'badge-status', icon: 'fas fa-times-circle' }
+  };
+
+  // Функции авторизации
+  function loginAdmin() {
+    const login = document.getElementById('adminLogin').value;
+    const password = document.getElementById('adminPassword').value;
+    const errorDiv = document.getElementById('loginError');
+
+    if (login === ADMIN_CONFIG.login && password === ADMIN_CONFIG.password) {
+      localStorage.setItem('adminLoggedIn', 'true');
+      localStorage.setItem('adminSession', btoa(JSON.stringify({
+        login: login,
+        timestamp: Date.now()
+      })));
+      
+      showAdminPanel();
+      showNotification('✅ Успешный вход в панель управления', 'success');
+    } else {
+      errorDiv.style.display = 'block';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  function logoutAdmin() {
+    localStorage.removeItem('adminLoggedIn');
+    localStorage.removeItem('adminSession');
+    location.reload();
+  }
+
+  function showAdminPanel() {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    
+    loadDashboardData();
+  }
+
+  function updateCurrentTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('ru-RU');
+    const dateString = now.toLocaleDateString('ru-RU', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    document.getElementById('currentTime').textContent = `${dateString} ${timeString}`;
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    document.getElementById(tabName + 'Tab').classList.add('active');
+    event.target.classList.add('active');
+    
+    switch(tabName) {
+      case 'dashboard':
+        loadDashboardData();
+        break;
+      case 'products':
+        loadProductsTable();
+        break;
+      case 'looks':
+        loadLooksManagement();
+        break;
+      case 'orders':
+        loadOrders();
+        break;
+      case 'analytics':
+        updateAnalytics();
+        break;
+      case 'finance':
+        updateFinanceReport();
+        break;
+      case 'settings':
+        loadSettings();
+        break;
+    }
+    
+    currentTab = tabName;
+  }
+
+  function showNotification(message, type = 'success') {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = `notification-admin ${type}`;
+    notification.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  function showLoading(show) {
+    document.getElementById('loadingAdmin').style.display = show ? 'flex' : 'none';
+  }
+
+  // Расчет маржи
+  function calculateMargin() {
+    const cost = parseFloat(document.getElementById('productCost').value) || 0;
+    const price = parseFloat(document.getElementById('productPrice').value) || 0;
+    
+    if (cost <= 0 || price <= 0) {
+      document.getElementById('profitAmount').textContent = '0 ₽';
+      document.getElementById('marginPercentage').textContent = '0%';
+      document.getElementById('marginPercentage').className = 'margin-indicator margin-good';
+      return;
+    }
+    
+    const profit = price - cost;
+    const margin = ((profit / price) * 100).toFixed(1);
+    
+    document.getElementById('profitAmount').textContent = `${profit.toLocaleString()} ₽`;
+    document.getElementById('marginPercentage').textContent = `${margin}%`;
+    
+    // Определяем цвет маржи
+    let marginClass = 'margin-good';
+    if (margin < 20) {
+      marginClass = 'margin-bad';
+    } else if (margin < 40) {
+      marginClass = 'margin-warning';
+    }
+    
+    document.getElementById('marginPercentage').className = `margin-indicator ${marginClass}`;
+  }
+
+  // Загрузка данных дашборда
+  async function loadDashboardData() {
+    showLoading(true);
+    
+    try {
+      // Загружаем товары
+      products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      
+      // Загружаем заказы
+      orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      // Обновляем статистику
+      updateDashboardStats();
+      
+      // Обновляем графики
+      updateDashboardCharts();
+      
+    } catch (error) {
+      console.error('Ошибка загрузки данных:', error);
+      showNotification('Ошибка загрузки данных', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Обновление статистики на дашборде
+  function updateDashboardStats() {
+    // Общая выручка и прибыль
+    let totalRevenue = 0;
+    let totalCost = 0;
+    let totalProfit = 0;
+    let orderCounts = { new: 0, processing: 0, delivery: 0, completed: 0, cancelled: 0 };
+    
+    orders.forEach(order => {
+      // Сумма заказа
+      const amount = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      totalRevenue += amount;
+      
+      // Себестоимость (если есть данные)
+      if (order.cost) {
+        totalCost += order.cost;
+      } else {
+        // Оцениваем себестоимость как 60% от цены, если нет данных
+        totalCost += amount * 0.6;
+      }
+      
+      // Считаем заказы по статусам
+      if (ORDER_STATUSES[order.status]) {
+        orderCounts[order.status]++;
+      } else {
+        orderCounts.new++;
+      }
+    });
+    
+    // Прибыль
+    totalProfit = totalRevenue - totalCost;
+    const avgMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100) : 0;
+    
+    // Обновляем элементы
+    document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+    document.getElementById('totalProfit').textContent = formatCurrency(totalProfit);
+    document.getElementById('avgMargin').textContent = `${avgMargin.toFixed(1)}%`;
+    document.getElementById('totalOrders').textContent = orders.length;
+    
+    // Статусы заказов
+    document.getElementById('newOrders').textContent = orderCounts.new;
+    document.getElementById('processingOrders').textContent = orderCounts.processing;
+    document.getElementById('deliveryOrders').textContent = orderCounts.delivery;
+    document.getElementById('completedOrders').textContent = orderCounts.completed;
+  }
+
+  // Обновление графиков дашборда
+  function updateDashboardCharts() {
+    // График прибыли
+    const profitCtx = document.getElementById('profitChart').getContext('2d');
+    
+    if (profitChart) {
+      profitChart.destroy();
+    }
+    
+    // Генерируем тестовые данные за последние 7 дней
+    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const revenueData = days.map(() => Math.floor(Math.random() * 50000) + 20000);
+    const profitData = revenueData.map(revenue => Math.floor(revenue * (0.3 + Math.random() * 0.2)));
+    
+    profitChart = new Chart(profitCtx, {
+      type: 'line',
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: 'Выручка',
+            data: revenueData,
+            borderColor: '#000000',
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Прибыль',
+            data: profitData,
+            borderColor: '#27ae60',
+            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#000000'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            ticks: {
+              color: '#666666',
+              callback: function(value) {
+                return (value / 1000).toFixed(0) + 'k';
+              }
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            ticks: {
+              color: '#666666'
+            }
+          }
+        }
+      }
+    });
+    
+    // График статусов заказов
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    
+    if (ordersChart) {
+      ordersChart.destroy();
+    }
+    
+    // Считаем реальные данные по статусам
+    const statusCounts = {
+      'Новые': orders.filter(o => !o.status || o.status === 'new').length,
+      'В обработке': orders.filter(o => o.status === 'processing').length,
+      'Ждет доставки': orders.filter(o => o.status === 'delivery').length,
+      'Завершены': orders.filter(o => o.status === 'completed').length,
+      'Отменены': orders.filter(o => o.status === 'cancelled').length
+    };
+    
+    ordersChart = new Chart(ordersCtx, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(statusCounts),
+        datasets: [{
+          data: Object.values(statusCounts),
+          backgroundColor: [
+            'rgba(52, 152, 219, 0.8)',
+            'rgba(241, 196, 15, 0.8)',
+            'rgba(155, 89, 182, 0.8)',
+            'rgba(39, 174, 96, 0.8)',
+            'rgba(231, 76, 60, 0.8)'
+          ],
+          borderWidth: 1,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: '#000000',
+              padding: 20
+            }
+          }
+        },
+        cutout: '70%'
+      }
+    });
+  }
+
+  // Форматирование валюты
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: 'RUB',
+      minimumFractionDigits: 0
+    }).format(amount);
+  }
+
+  // Загрузка таблицы товаров
+  function loadProductsTable() {
+    showLoading(true);
+    
+    try {
+      products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      const container = document.getElementById('productsTable');
+      
+      if (products.length === 0) {
+        container.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+              <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+              Товаров пока нет
+            </td>
+          </tr>
+        `;
+        showLoading(false);
+        return;
+      }
+      
+      container.innerHTML = products.map(product => {
+        const cost = product.cost || 0;
+        const price = product.price || 0;
+        const profit = price - cost;
+        const margin = price > 0 ? ((profit / price) * 100) : 0;
+        
+        let marginClass = 'margin-good';
+        if (margin < 20) {
+          marginClass = 'margin-bad';
+        } else if (margin < 40) {
+          marginClass = 'margin-warning';
+        }
+        
+        return `
+          <tr>
+            <td><strong>#${product.id}</strong></td>
+            <td>${product.name}</td>
+            <td><span class="table-badge">
+              ${product.type === 'original' ? 'Оригинал' : 'Реплика'}
+            </span></td>
+            <td>${formatCurrency(cost)}</td>
+            <td>${formatCurrency(price)}</td>
+            <td><span class="margin-indicator ${marginClass}">${margin.toFixed(1)}%</span></td>
+            <td><span class="badge-profit ${profit >= 0 ? 'positive' : 'negative'}">
+              ${formatCurrency(profit)}
+            </span></td>
+            <td><span class="table-badge">
+              ${product.availability === 'in_stock' ? 'В наличии' : 'Под заказ'}
+            </span></td>
+            <td>
+              <div class="table-actions">
+                <button class="action-btn" onclick="editProduct(${product.id})">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn" onclick="deleteProduct(${product.id})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+    } catch (error) {
+      console.error('Ошибка загрузки товаров:', error);
+      showNotification('Ошибка загрузки товаров', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Добавление товара с учетом себестоимости
+  function addProduct() {
+    showLoading(true);
+    
+    try {
+      // Получаем данные из формы
+      const productId = Date.now();
+      const productName = document.getElementById('productName').value.trim();
+      const productCategory = document.getElementById('productCategory').value;
+      const productType = document.getElementById('productType').value;
+      const productAvailability = document.getElementById('productAvailability').value;
+      const productCost = parseFloat(document.getElementById('productCost').value) || 0;
+      const productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
+      const productDescription = document.getElementById('productDescription').value.trim();
+      const productImages = document.getElementById('productImages').value.split(',').map(url => url.trim()).filter(url => url);
+      
+      // Валидация
+      if (!productName || !productCategory || !productType || !productCost || !productPrice || !productDescription || productImages.length === 0) {
+        showNotification('Заполните все обязательные поля', 'error');
+        showLoading(false);
+        return;
+      }
+      
+      if (productCost >= productPrice) {
+        showNotification('Себестоимость должна быть меньше цены продажи', 'error');
+        showLoading(false);
+        return;
+      }
+      
+      // Рассчитываем прибыль и маржу
+      const profit = productPrice - productCost;
+      const margin = (profit / productPrice * 100).toFixed(1);
+      
+      // 1. Создаем товар для каталога
+      const catalogProduct = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        originalPrice: Math.round(productPrice * 1.5),
+        type: productType,
+        category: productCategory,
+        image: productImages[0],
+        rating: 4.0 + (Math.random() * 0.5),
+        reviews: Math.floor(Math.random() * 50),
+        badge: 'Новинка',
+        inStock: productAvailability === 'in_stock',
+        deliveryTime: productType === 'original' ? '7-14 дней' : '2-3 часа'
+      };
+      
+      // Добавляем в каталог
+      let catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+      catalogProducts.push(catalogProduct);
+      localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
+      
+      // 2. Создаем детализированную версию для страницы товара
+      const detailedProduct = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        originalPrice: catalogProduct.originalPrice,
+        type: productType,
+        category: productCategory,
+        description: productDescription,
+        images: productImages,
+        sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim()).filter(s => s) || ['M', 'L', 'XL'],
+        color: document.getElementById('productColor').value.trim() || 'Черный',
+        material: 'Хлопок 100%',
+        inStock: productAvailability === 'in_stock',
+        stockCount: parseInt(document.getElementById('productStock').value) || 10,
+        rating: catalogProduct.rating,
+        reviews: [],
+        deliveryTime: catalogProduct.deliveryTime,
+        profit: profit,
+        margin: margin
+      };
+      
+      // Добавляем в детализированные товары
+      let detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      detailedProducts[productId] = detailedProduct;
+      localStorage.setItem('detailedProducts', JSON.stringify(detailedProducts));
+      
+      // 3. Создаем админскую версию (с себестоимостью)
+      const adminProduct = {
+        id: productId,
+        name: productName,
+        category: productCategory,
+        type: productType,
+        availability: productAvailability,
+        cost: productCost,
+        price: productPrice,
+        profit: profit,
+        margin: margin,
+        stock: parseInt(document.getElementById('productStock').value) || 10,
+        sizes: detailedProduct.sizes,
+        color: detailedProduct.color,
+        description: productDescription,
+        images: productImages,
+        createdAt: new Date().toISOString(),
+        rating: catalogProduct.rating,
+        reviews: [],
+        badge: 'Новинка',
+        deliveryTime: catalogProduct.deliveryTime
+      };
+      
+      // Добавляем в админские товары
+      let adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      adminProducts.push(adminProduct);
+      localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+      
+      // 4. Добавляем в популярные товары
+      let popularProducts = JSON.parse(localStorage.getItem('popularProducts')) || [];
+      popularProducts.push({
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        image: productImages[0],
+        type: productType,
+        category: productCategory,
+        inStock: productAvailability === 'in_stock',
+        profit: profit
+      });
+      
+      // Оставляем только последние 12 товаров
+      popularProducts = popularProducts.slice(-12);
+      localStorage.setItem('popularProducts', JSON.stringify(popularProducts));
+      
+      showNotification(`✅ Товар "${productName}" успешно добавлен! Прибыль: ${profit.toLocaleString()} ₽ (${margin}%)`, 'success');
+      resetProductForm();
+      loadProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка при добавлении товара:', error);
+      showNotification('Ошибка при добавлении товара', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  function resetProductForm() {
+    document.getElementById('productName').value = '';
+    document.getElementById('productCategory').value = '';
+    document.getElementById('productType').value = '';
+    document.getElementById('productAvailability').value = 'in_stock';
+    document.getElementById('productCost').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('productStock').value = '10';
+    document.getElementById('productSizes').value = '';
+    document.getElementById('productColor').value = '';
+    document.getElementById('productDescription').value = '';
+    document.getElementById('productImages').value = '';
+    document.getElementById('imagePreview').innerHTML = '';
+    calculateMargin();
+    
+    showNotification('Форма очищена', 'info');
+  }
+
+  function editProduct(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+      showNotification('Товар не найден', 'error');
+      return;
+    }
+    
+    // Переключаемся на вкладку добавления и заполняем форму
+    switchTab('addProduct');
+    
+    // Заполняем форму данными товара
+    setTimeout(() => {
+      document.getElementById('productName').value = product.name || '';
+      document.getElementById('productCategory').value = product.category || '';
+      document.getElementById('productType').value = product.type || '';
+      document.getElementById('productAvailability').value = product.availability || 'in_stock';
+      document.getElementById('productCost').value = product.cost || '';
+      document.getElementById('productPrice').value = product.price || '';
+      document.getElementById('productStock').value = product.stock || 10;
+      document.getElementById('productSizes').value = product.sizes ? product.sizes.join(', ') : '';
+      document.getElementById('productColor').value = product.color || '';
+      document.getElementById('productDescription').value = product.description || '';
+      document.getElementById('productImages').value = product.images ? product.images.join(', ') : '';
+      
+      calculateMargin();
+      showNotification('Форма заполнена данными товара. Обновите информацию и сохраните изменения.', 'info');
+    }, 300);
+  }
+
+  function deleteProduct(productId) {
+    if (!confirm('Вы уверены, что хотите удалить этот товар? Это действие нельзя отменить.')) {
+      return;
+    }
+    
+    showLoading(true);
+    
+    try {
+      // Удаляем из всех хранилищ
+      let adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      adminProducts = adminProducts.filter(p => p.id !== productId);
+      localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+      
+      let catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+      catalogProducts = catalogProducts.filter(p => p.id !== productId);
+      localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
+      
+      let detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      delete detailedProducts[productId];
+      localStorage.setItem('detailedProducts', JSON.stringify(detailedProducts));
+      
+      let popularProducts = JSON.parse(localStorage.getItem('popularProducts')) || [];
+      popularProducts = popularProducts.filter(p => p.id !== productId);
+      localStorage.setItem('popularProducts', JSON.stringify(popularProducts));
+      
+      showNotification('Товар успешно удален', 'success');
+      loadProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка при удалении товара:', error);
+      showNotification('Ошибка при удалении товара', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Управление готовыми образами
+  function loadLooksManagement() {
+    loadProductsForLooks();
+    loadLooksList();
+  }
+
+  function loadProductsForLooks() {
+    const container = document.getElementById('lookProductsSelect');
+    let products = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+    
+    if (products.length === 0) {
+      // Если нет товаров в каталоге, используем демо-товары
+      products = [
+        { id: 201, name: "Nike Air Jordan 1 High", type: "replica", price: 12990 },
+        { id: 102, name: "New Balance 2002 Protection", type: "original", price: 34990 },
+        { id: 103, name: "Adidas Yeezy 700", type: "replica", price: 19990 },
+        { id: 104, name: "Balenciaga Triple S", type: "original", price: 79990 },
+        { id: 301, name: "Oversize Hoodie Black", type: "replica", price: 7990 },
+        { id: 302, name: "White Basic Tee", type: "replica", price: 2990 }
+      ];
+    }
+    
+    container.innerHTML = products.map(product => `
+      <div class="look-product-option" onclick="toggleProductSelection(${product.id}, this)">
+        <input type="checkbox" id="product-${product.id}" value="${product.id}" style="display: none;">
+        <i class="fas fa-${product.category === 'обувь' ? 'shoe-prints' : 'tshirt'}"></i>
+        <span>${product.name}</span>
+        <span style="margin-left: auto; color: var(--text-secondary);">${product.price.toLocaleString()} ₽</span>
+      </div>
+    `).join('');
+    
+    updateSelectedProductsCount();
+  }
+
+  function toggleProductSelection(productId, element) {
+    const checkbox = document.getElementById(`product-${productId}`);
+    checkbox.checked = !checkbox.checked;
+    
+    if (checkbox.checked) {
+      element.classList.add('selected');
+    } else {
+      element.classList.remove('selected');
+    }
+    
+    updateSelectedProductsCount();
+  }
+
+  function updateSelectedProductsCount() {
+    const selectedCount = document.querySelectorAll('.look-product-option.selected').length;
+    document.getElementById('selectedProductsCount').textContent = `Выбрано товаров: ${selectedCount}`;
+  }
+
+  function previewLookImage() {
+    const url = document.getElementById('lookImage').value;
+    const preview = document.getElementById('lookImagePreview');
+    if (url) {
+      preview.src = url;
+      preview.style.display = 'block';
+      preview.onerror = function() {
+        this.style.display = 'none';
+        showNotification('Не удалось загрузить изображение', 'error');
+      };
+    } else {
+      preview.style.display = 'none';
+    }
+  }
+
+  function saveLook() {
+    const name = document.getElementById('lookName').value.trim();
+    const tag = document.getElementById('lookTag').value.trim();
+    const image = document.getElementById('lookImage').value.trim();
+    
+    // Получаем выбранные товары
+    const selectedProducts = [];
+    document.querySelectorAll('.look-product-option.selected').forEach(option => {
+      const checkbox = option.querySelector('input[type="checkbox"]');
+      if (checkbox) {
+        selectedProducts.push(parseInt(checkbox.value));
+      }
+    });
+    
+    if (!name || !image || selectedProducts.length === 0) {
+      showNotification('Заполните название, изображение и выберите товары', 'error');
+      return;
+    }
+    
+    if (selectedProducts.length > 10) {
+      showNotification('Максимальное количество товаров в образе - 10', 'error');
+      return;
+    }
+    
+    let looks = JSON.parse(localStorage.getItem('adminLooks')) || [];
+    
+    const lookData = {
+      id: editingLookId || Date.now(),
+      name,
+      tag: tag || 'Образ',
+      image,
+      products: selectedProducts,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    if (editingLookId) {
+      // Редактирование
+      const index = looks.findIndex(l => l.id === editingLookId);
+      if (index !== -1) {
+        looks[index] = lookData;
+        showNotification('Образ обновлен', 'success');
+      }
+    } else {
+      // Добавление
+      looks.push(lookData);
+      showNotification('Образ добавлен', 'success');
+    }
+    
+    localStorage.setItem('adminLooks', JSON.stringify(looks));
+    
+    resetLookForm();
+    loadLooksList();
+  }
+
+  function resetLookForm() {
+    document.getElementById('lookName').value = '';
+    document.getElementById('lookTag').value = '';
+    document.getElementById('lookImage').value = '';
+    document.getElementById('lookImagePreview').style.display = 'none';
+    document.querySelectorAll('.look-product-option').forEach(option => {
+      option.classList.remove('selected');
+      const checkbox = option.querySelector('input[type="checkbox"]');
+      if (checkbox) checkbox.checked = false;
+    });
+    updateSelectedProductsCount();
+    editingLookId = null;
+  }
+
+  function loadLooksList() {
+    const looks = JSON.parse(localStorage.getItem('adminLooks')) || [];
+    const container = document.getElementById('looksList');
+    
+    if (looks.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-tshirt" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+          <h3>Образов пока нет</h3>
+          <p>Создайте первый образ используя форму выше</p>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = looks.map(look => {
+      // Получаем названия товаров
+      let productNames = [];
+      let catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+      
+      look.products.forEach(productId => {
+        const product = catalogProducts.find(p => p.id == productId);
+        if (product) {
+          productNames.push(product.name);
+        }
+      });
+      
+      // Ограничиваем количество отображаемых товаров
+      const displayProducts = productNames.slice(0, 3);
+      const remaining = productNames.length > 3 ? ` и еще ${productNames.length - 3} товаров` : '';
+      
+      return `
+        <div class="look-card-admin">
+          <div class="look-card-image">
+            <img src="${look.image}" alt="${look.name}" onerror="this.src='https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=400&q=80'">
+          </div>
+          <div class="look-card-content">
+            <div class="look-card-title">${look.name}</div>
+            <div class="look-card-tag">${look.tag}</div>
+            <div class="look-card-products">
+              <p><strong>Товаров:</strong> ${look.products.length}</p>
+              <ul>
+                ${displayProducts.map(name => `<li>${name}</li>`).join('')}
+                ${remaining ? `<li>${remaining}</li>` : ''}
+              </ul>
+            </div>
+            <div class="look-card-actions">
+              <button class="btn btn-secondary btn-small" onclick="editLook(${look.id})">
+                <i class="fas fa-edit"></i> Редактировать
+              </button>
+              <button class="btn btn-secondary btn-small" onclick="deleteLook(${look.id})">
+                <i class="fas fa-trash"></i> Удалить
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function editLook(lookId) {
+    const looks = JSON.parse(localStorage.getItem('adminLooks')) || [];
+    const look = looks.find(l => l.id === lookId);
+    
+    if (!look) {
+      showNotification('Образ не найден', 'error');
+      return;
+    }
+    
+    editingLookId = lookId;
+    document.getElementById('lookName').value = look.name;
+    document.getElementById('lookTag').value = look.tag || '';
+    document.getElementById('lookImage').value = look.image;
+    previewLookImage();
+    
+    // Сбрасываем все выделения
+    document.querySelectorAll('.look-product-option').forEach(option => {
+      option.classList.remove('selected');
+      const checkbox = option.querySelector('input[type="checkbox"]');
+      if (checkbox) checkbox.checked = false;
+    });
+    
+    // Выделяем товары из образа
+    look.products.forEach(productId => {
+      const option = document.querySelector(`.look-product-option input[value="${productId}"]`);
+      if (option) {
+        option.checked = true;
+        option.parentElement.classList.add('selected');
+      }
+    });
+    
+    updateSelectedProductsCount();
+    showNotification('Редактирование образа', 'info');
+  }
+
+  function deleteLook(lookId) {
+    if (!confirm('Вы уверены, что хотите удалить этот образ?')) {
+      return;
+    }
+    
+    let looks = JSON.parse(localStorage.getItem('adminLooks')) || [];
+    looks = looks.filter(l => l.id !== lookId);
+    localStorage.setItem('adminLooks', JSON.stringify(looks));
+    
+    showNotification('Образ удален', 'success');
+    loadLooksList();
+  }
+
+  // Загрузка заказов с учетом себестоимости и прибыли
+  function loadOrders() {
+    showLoading(true);
+    
+    orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const container = document.getElementById('ordersTable');
+    
+    if (orders.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+            <i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            Заказов пока нет
+          </td>
+        </tr>
+      `;
+      showLoading(false);
+      return;
+    }
+    
+    // Загружаем детальную информацию о товарах для расчета себестоимости
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    
+    const sortedOrders = [...orders].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    
+    container.innerHTML = sortedOrders.map(order => {
+      // Рассчитываем себестоимость и прибыль для заказа
+      let totalCost = 0;
+      let totalRevenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      let profit = 0;
+      
+      if (order.items && order.items.length > 0) {
+        order.items.forEach(item => {
+          const product = detailedProducts[item.id];
+          if (product && product.cost) {
+            totalCost += product.cost * (item.quantity || 1);
+          } else {
+            // Если нет данных о себестоимости, оцениваем как 60% от цены
+            totalCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+          }
+        });
+      } else {
+        // Если нет данных о товарах, оцениваем себестоимость как 60% от выручки
+        totalCost = totalRevenue * 0.6;
+      }
+      
+      profit = totalRevenue - totalCost;
+      const margin = totalRevenue > 0 ? ((profit / totalRevenue) * 100) : 0;
+      
+      // Определяем статус
+      const status = order.status || 'new';
+      const statusInfo = ORDER_STATUSES[status] || ORDER_STATUSES['new'];
+      
+      return `
+        <tr>
+          <td><strong>#${order.id || '0000'}</strong></td>
+          <td>${formatDate(order.date)}</td>
+          <td>${order.name || 'Без имени'}<br><small>${order.phone || ''}</small></td>
+          <td>${order.items ? order.items.length + ' шт.' : 'Нет данных'}</td>
+          <td>${formatCurrency(totalRevenue)}</td>
+          <td>${formatCurrency(totalCost)}</td>
+          <td><span class="badge-profit ${profit >= 0 ? 'positive' : 'negative'}">
+            ${formatCurrency(profit)}<br><small>${margin.toFixed(1)}%</small>
+          </span></td>
+          <td>
+            <span class="table-badge">
+              <i class="${statusInfo.icon}"></i> ${statusInfo.name}
+            </span>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="action-btn" onclick="viewOrder('${order.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn" onclick="editOrder('${order.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+    
+    showLoading(false);
+  }
+
+  function viewOrder(orderId) {
+    const order = orders.find(o => o.id == orderId);
+    
+    if (!order) {
+      showNotification('Заказ не найден', 'error');
+      return;
+    }
+    
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    let itemsText = '';
+    let totalCost = 0;
+    let totalRevenue = 0;
+    
+    if (order.items && order.items.length > 0) {
+      itemsText = order.items.map(item => {
+        const product = detailedProducts[item.id];
+        const cost = product ? product.cost || 0 : 0;
+        const itemCost = cost * (item.quantity || 1);
+        totalCost += itemCost;
+        totalRevenue += (item.price || 0) * (item.quantity || 1);
+        
+        return `${item.name} - ${item.quantity || 1} шт. × ${formatCurrency(item.price)} = ${formatCurrency(item.price * (item.quantity || 1))} (себестоимость: ${formatCurrency(itemCost)})`;
+      }).join('\n');
+    } else {
+      totalRevenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      totalCost = totalRevenue * 0.6;
+    }
+    
+    const profit = totalRevenue - totalCost;
+    const margin = totalRevenue > 0 ? ((profit / totalRevenue) * 100) : 0;
+    const status = order.status || 'new';
+    const statusInfo = ORDER_STATUSES[status] || ORDER_STATUSES['new'];
+    
+    const message = `
+Заказ #${order.id}
+Дата: ${order.date || 'Не указана'}
+Статус: ${statusInfo.name}
+
+Клиент: ${order.name || 'Не указан'}
+Телефон: ${order.phone || 'Не указан'}
+Email: ${order.email || 'Не указан'}
+Адрес: ${order.address || 'Не указан'}
+
+Товары:
+${itemsText || 'Нет информации'}
+
+Финансы:
+Выручка: ${formatCurrency(totalRevenue)}
+Себестоимость: ${formatCurrency(totalCost)}
+Прибыль: ${formatCurrency(profit)} (${margin.toFixed(1)}%)
+    `.trim();
+
+    alert(message);
+  }
+
+  // Финансовый отчет
+  function updateFinanceReport() {
+    showLoading(true);
+    
+    try {
+      const period = document.getElementById('financePeriod').value;
+      const reportType = document.getElementById('financeType').value;
+      
+      // Фильтруем заказы по периоду
+      let filteredOrders = [...orders];
+      const now = new Date();
+      
+      switch(period) {
+        case 'today':
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= today);
+          break;
+        case 'yesterday':
+          const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+          const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => {
+            const orderDate = new Date(order.date);
+            return orderDate >= yesterday && orderDate < todayStart;
+          });
+          break;
+        case 'week':
+          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= weekAgo);
+          break;
+        case 'month':
+          const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= monthAgo);
+          break;
+        case 'quarter':
+          const quarterAgo = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= quarterAgo);
+          break;
+        case 'year':
+          const yearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= yearAgo);
+          break;
+      }
+      
+      // Рассчитываем финансовые показатели
+      let totalRevenue = 0;
+      let totalCost = 0;
+      let totalProfit = 0;
+      
+      const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      
+      filteredOrders.forEach(order => {
+        const revenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+        totalRevenue += revenue;
+        
+        let orderCost = 0;
+        if (order.items && order.items.length > 0) {
+          order.items.forEach(item => {
+            const product = detailedProducts[item.id];
+            if (product && product.cost) {
+              orderCost += product.cost * (item.quantity || 1);
+            } else {
+              orderCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+            }
+          });
+        } else {
+          orderCost = revenue * 0.6;
+        }
+        
+        totalCost += orderCost;
+      });
+      
+      totalProfit = totalRevenue - totalCost;
+      const avgMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100) : 0;
+      
+      // Обновляем показатели
+      document.getElementById('periodRevenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('periodProfit').textContent = formatCurrency(totalProfit);
+      document.getElementById('periodMargin').textContent = `${avgMargin.toFixed(1)}%`;
+      document.getElementById('periodOrders').textContent = filteredOrders.length;
+      
+      // Обновляем детализированную таблицу
+      updateFinanceDetailsTable(filteredOrders, reportType);
+      
+    } catch (error) {
+      console.error('Ошибка обновления финансового отчета:', error);
+      showNotification('Ошибка обновления отчета', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Аналитика
+  function updateAnalytics() {
+    showLoading(true);
+    
+    try {
+      // Обновляем графики
+      updateAnalyticsCharts();
+      
+      // Обновляем таблицу топ-5 товаров
+      updateTopProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка обновления аналитики:', error);
+      showNotification('Ошибка обновления аналитики', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  function updateAnalyticsCharts() {
+    // График выручки и прибыли
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    
+    if (revenueChart) {
+      revenueChart.destroy();
+    }
+    
+    // Генерируем данные за последние 30 дней
+    const days = Array.from({length: 30}, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (29 - i));
+      return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    });
+    
+    const revenueData = days.map(() => Math.floor(Math.random() * 80000) + 30000);
+    const profitData = revenueData.map(revenue => Math.floor(revenue * (0.25 + Math.random() * 0.15)));
+    const costData = revenueData.map((revenue, i) => revenue - profitData[i]);
+    
+    revenueChart = new Chart(revenueCtx, {
+      type: 'bar',
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: 'Выручка',
+            data: revenueData,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            borderColor: '#000000',
+            borderWidth: 1
+          },
+          {
+            label: 'Прибыль',
+            data: profitData,
+            backgroundColor: 'rgba(39, 174, 96, 0.7)',
+            borderColor: '#27ae60',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#000000'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            ticks: {
+              color: '#666666',
+              callback: function(value) {
+                return (value / 1000).toFixed(0) + 'k';
+              }
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            ticks: {
+              color: '#666666',
+              maxRotation: 45
+            }
+          }
+        }
+      }
+    });
+    
+    // График продаж по категориям
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    
+    if (categoryChart) {
+      categoryChart.destroy();
+    }
+    
+    const categories = ['Обувь', 'Мужская одежда', 'Женская одежда', 'Аксессуары', 'Верхняя одежда'];
+    const categoryData = categories.map(() => Math.floor(Math.random() * 500000) + 200000);
+    
+    categoryChart = new Chart(categoryCtx, {
+      type: 'polarArea',
+      data: {
+        labels: categories,
+        datasets: [{
+          data: categoryData,
+          backgroundColor: [
+            'rgba(0, 0, 0, 0.7)',
+            'rgba(52, 152, 219, 0.7)',
+            'rgba(155, 89, 182, 0.7)',
+            'rgba(39, 174, 96, 0.7)',
+            'rgba(241, 196, 15, 0.7)'
+          ],
+          borderWidth: 1,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: '#000000',
+              padding: 20
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function updateTopProductsTable() {
+    const container = document.getElementById('topProductsTable');
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+    
+    // Сортируем товары по прибыльности
+    const topProducts = adminProducts
+      .map(product => {
+        const sales = Math.floor(Math.random() * 100) + 10;
+        const revenue = (product.price || 0) * sales;
+        const profit = (product.profit || 0) * sales;
+        const margin = product.margin || 0;
+        
+        return {
+          name: product.name,
+          sales: sales,
+          revenue: revenue,
+          profit: profit,
+          margin: margin
+        };
+      })
+      .sort((a, b) => b.profit - a.profit)
+      .slice(0, 5);
+    
+    if (topProducts.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 1rem; color: var(--text-secondary);">
+            Нет данных о продажах
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    container.innerHTML = topProducts.map((product, index) => `
+      <tr>
+        <td><strong>${index + 1}. ${product.name}</strong></td>
+        <td>${product.sales} шт.</td>
+        <td>${formatCurrency(product.revenue)}</td>
+        <td><span class="badge-profit positive">${formatCurrency(product.profit)}</span></td>
+        <td>${product.margin.toFixed(1)}%</td>
+      </tr>
+    `).join('');
+  }
+
+  // Настройки
+  function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem('adminSettings')) || {};
+    
+    document.getElementById('shopName').value = settings.shopName || 'DROP SHOP Якутск';
+    document.getElementById('shopPhone').value = settings.shopPhone || '+7 (999) 123-45-67';
+    document.getElementById('shopEmail').value = settings.shopEmail || 'info@dropshop-ykt.ru';
+    document.getElementById('shopAddress').value = settings.shopAddress || 'Якутск, ул. Ленина, 15';
+    document.getElementById('telegramToken').value = settings.telegramToken || '';
+    document.getElementById('telegramChatId').value = settings.telegramChatId || '';
+    
+    document.getElementById('deliveryYakutsk').checked = settings.deliveryYakutsk !== false;
+    document.getElementById('pickupAvailable').checked = settings.pickupAvailable !== false;
+    document.getElementById('freeDelivery').checked = settings.freeDelivery !== false;
+  }
+
+  function saveSettings() {
+    const settings = {
+      shopName: document.getElementById('shopName').value,
+      shopPhone: document.getElementById('shopPhone').value,
+      shopEmail: document.getElementById('shopEmail').value,
+      shopAddress: document.getElementById('shopAddress').value,
+      telegramToken: document.getElementById('telegramToken').value,
+      telegramChatId: document.getElementById('telegramChatId').value,
+      deliveryYakutsk: document.getElementById('deliveryYakutsk').checked,
+      pickupAvailable: document.getElementById('pickupAvailable').checked,
+      freeDelivery: document.getElementById('freeDelivery').checked,
+      updatedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('adminSettings', JSON.stringify(settings));
+    showNotification('Настройки сохранены', 'success');
+  }
+
+  function resetSettings() {
+    if (confirm('Сбросить настройки к значениям по умолчанию?')) {
+      localStorage.removeItem('adminSettings');
+      loadSettings();
+      showNotification('Настройки сброшены', 'info');
+    }
+  }
+
+  // Вспомогательные функции
+  function formatDate(dateString) {
+    if (!dateString) return 'Дата не указана';
+    
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (e) {
+      return dateString;
+    }
+  }
+
+  // Предпросмотр изображений
+  document.getElementById('productImages').addEventListener('input', function() {
+    const urls = this.value.split(',').map(url => url.trim()).filter(url => url);
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+    
+    urls.slice(0, 5).forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.className = 'preview-image';
+      img.onerror = function() {
+        this.src = 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=200&h=150&q=80';
+      };
+      preview.appendChild(img);
+    });
+  });
+
+  // Проверка авторизации при загрузке
+  document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+    
+    if (isLoggedIn) {
+      const sessionData = localStorage.getItem('adminSession');
+      if (sessionData) {
+        try {
+          const session = JSON.parse(atob(sessionData));
+          const sessionAge = Date.now() - session.timestamp;
+          
+          if (sessionAge < 8 * 60 * 60 * 1000) {
+            showAdminPanel();
+            return;
+          }
+        } catch (e) {
+          console.error('Ошибка парсинга сессии:', e);
+        }
+      }
+      
+      logoutAdmin();
+    }
+    
+    // Инициализация расчета маржи
+    calculateMargin();
+  });
+</script>
+</body>
+</html>

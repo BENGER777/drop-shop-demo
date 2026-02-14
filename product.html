@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP | Детали товара</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-black: #0a0a0a;
+    --primary-white: #ffffff;
+    --accent-gold: #FFD700;
+    --accent-silver: #C0C0C0;
+    --accent-red: #FF3B30;
+    --bg-light: #f8f9fa;
+    --bg-dark: #1a1a1a;
+    --text-light: #666666;
+    --success-green: #27ae60;
+    --info-blue: #3498db;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--primary-white);
+    color: var(--primary-black);
+    line-height: 1.6;
+    padding-top: 80px;
+  }
+
+  /* Header (аналогичный index.html) */
+  .main-header {
+    background: var(--primary-black);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+  }
+
+  .logo-text {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--primary-white);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-subtitle {
+    font-size: 0.7rem;
+    color: var(--accent-silver);
+    margin-top: -5px;
+    letter-spacing: 1.5px;
+  }
+
+  /* Product Detail */
+  .product-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .product-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (max-width: 992px) {
+    .product-main {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  /* Product Gallery */
+  .product-gallery {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+  }
+
+  .main-image-container {
+    position: relative;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    overflow: hidden;
+    background: var(--bg-light);
+  }
+
+  .main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+  }
+
+  .main-image:hover {
+    transform: scale(1.02);
+  }
+
+  .image-badges {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .product-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-original {
+    background: linear-gradient(135deg, var(--accent-gold), #FFA500);
+    color: var(--primary-black);
+  }
+
+  .badge-replica {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+
+  .badge-stock {
+    background: var(--success-green);
+    color: white;
+  }
+
+  .badge-preorder {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+  }
+
+  .thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .thumbnail:hover,
+  .thumbnail.active {
+    border-color: var(--accent-gold);
+    transform: translateY(-2px);
+  }
+
+  /* Product Info */
+  .product-info {
+    padding: 1rem 0;
+  }
+
+  .product-category {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stars {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+  }
+
+  .rating-count {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  .price-container {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--accent-gold);
+  }
+
+  .current-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-black);
+    margin-bottom: 0.5rem;
+  }
+
+  .original-price {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-bottom: 0.5rem;
+  }
+
+  .savings {
+    color: var(--success-green);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .delivery-info {
+    background: rgba(52, 152, 219, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .delivery-icon {
+    font-size: 1.5rem;
+    color: var(--info-blue);
+  }
+
+  .delivery-text strong {
+    color: var(--info-blue);
+  }
+
+  /* Options */
+  .options-section {
+    margin-bottom: 2rem;
+  }
+
+  .option-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .size-btn {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .size-btn:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-2px);
+  }
+
+  .size-btn.selected {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+    border-color: var(--accent-gold);
+  }
+
+  .size-btn.unavailable {
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .color-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .color-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .color-btn.selected {
+    border-color: var(--primary-black);
+  }
+
+  /* Actions */
+  .product-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-black);
+    color: var(--primary-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: var(--bg-light);
+    color: var(--primary-black);
+    border: 2px solid #e0e0e0;
+  }
+
+  .btn-secondary:hover {
+    background: #e9ecef;
+    border-color: var(--accent-gold);
+  }
+
+  .btn-danger {
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--accent-red);
+    border: 2px solid rgba(255, 59, 48, 0.2);
+  }
+
+  .btn-danger:hover {
+    background: rgba(255, 59, 48, 0.2);
+  }
+
+  /* Description */
+  .description-section {
+    margin-bottom: 3rem;
+  }
+
+  .description-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+
+  .description-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-gold);
+  }
+
+  .description-content {
+    line-height: 1.8;
+    color: var(--text-light);
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .spec-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+  }
+
+  .spec-label {
+    font-weight: 600;
+  }
+
+  .spec-value {
+    color: var(--text-light);
+  }
+
+  /* Reviews */
+  .reviews-section {
+    margin-bottom: 3rem;
+  }
+
+  .reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .review-form {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .review-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  /* Related Products */
+  .related-products {
+    margin-top: 4rem;
+  }
+
+  .related-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  /* Image Modal */
+  .image-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  /* Notification */
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: var(--success-green);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: slideInRight 0.3s ease;
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Footer (аналогичный index.html) */
+  .main-footer {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: 4rem 2rem 2rem;
+    margin-top: 4rem;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">👑</div>
+      <div>
+        <div class="logo-text">DROP SHOP</div>
+        <div class="logo-subtitle">ЯКУТСК | ОРИГИНАЛЫ & РЕПЛИКИ</div>
+      </div>
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="catalog.html" class="nav-link">Каталог</a>
+      <a href="about.html" class="nav-link">О нас</a>
+      <a href="contact.html" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-btn" onclick="toggleWishlist()">
+        <i class="far fa-heart"></i>
+        <span class="badge" id="wishlistCount">0</span>
+      </button>
+      <button class="action-btn" onclick="toggleCompare()">
+        <i class="fas fa-balance-scale"></i>
+        <span class="badge" id="compareCount">0</span>
+      </button>
+      <button class="action-btn" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Product Detail -->
+<div class="product-container">
+  <div class="product-main" id="productMain">
+    <!-- Content loaded by JavaScript -->
+  </div>
+
+  <!-- Description & Specs -->
+  <div class="description-section" id="descriptionSection">
+    <!-- Content loaded by JavaScript -->
+  </div>
+
+  <!-- Reviews -->
+  <div class="reviews-section" id="reviewsSection">
+    <!-- Content loaded by JavaScript -->
+  </div>
+
+  <!-- Related Products -->
+  <div class="related-products" id="relatedProducts">
+    <!-- Content loaded by JavaScript -->
+  </div>
+</div>
+
+<!-- Image Modal -->
+<div class="image-modal" id="imageModal">
+  <button class="modal-close" onclick="closeImageModal()">&times;</button>
+  <img class="modal-image" id="modalImage" alt="">
+</div>
+
+<!-- Notification Container -->
+<div id="notificationContainer"></div>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>DROP SHOP ЯКУТСК</h3>
+      <p style="color: var(--accent-silver); margin-bottom: 1.5rem;">Единственный магазин в Якутске с оригиналами под заказ и качественными репликами в наличии.</p>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Контакты</h3>
+      <ul>
+        <li><i class="fas fa-map-marker-alt"></i> Якутск, ул. Ленина, 15</li>
+        <li><i class="fas fa-phone"></i> +7 (999) 123-45-67</li>
+        <li><i class="fas fa-envelope"></i> info@dropshop-ykt.ru</li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Информация</h3>
+      <ul>
+        <li><a href="delivery.html">Доставка и оплата</a></li>
+        <li><a href="guarantee.html">Гарантия</a></li>
+        <li><a href="return.html">Возврат</a></li>
+        <li><a href="admin.html" style="color: var(--accent-gold);"><i class="fas fa-lock"></i> Админ панель</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="copyright">
+    <p>© 2024 DROP SHOP Якутск. Все права защищены.</p>
+  </div>
+</footer>
+
+<script>
+  // Получаем ID товара из URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = parseInt(urlParams.get('id')) || 101;
+
+  // Глобальные переменные
+  let currentProduct = null;
+  let selectedSize = null;
+  let selectedColor = null;
+  let isInWishlist = false;
+  let isInCompare = false;
+
+  // Обновление счетчиков
+  function updateCounters() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const compareList = JSON.parse(localStorage.getItem('compare')) || [];
+    
+    const cartCount = Object.values(cart).reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const wishlistCount = wishlist.length;
+    const compareCount = compareList.length;
+    
+    document.getElementById('cartCount').textContent = cartCount > 99 ? '99+' : cartCount;
+    document.getElementById('wishlistCount').textContent = wishlistCount > 99 ? '99+' : wishlistCount;
+    document.getElementById('compareCount').textContent = compareCount > 99 ? '99+' : compareCount;
+    
+    // Проверяем, есть ли товар в избранном и сравнении
+    isInWishlist = wishlist.includes(productId);
+    isInCompare = compareList.includes(productId);
+  }
+
+  // Загрузка данных товара
+  async function loadProduct() {
+    try {
+      // Загружаем детальную информацию о товаре
+      const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      currentProduct = detailedProducts[productId];
+      
+      if (!currentProduct) {
+        // Если товар не найден, загружаем из каталога
+        const catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+        const catalogProduct = catalogProducts.find(p => p.id == productId);
+        
+        if (!catalogProduct) {
+          document.getElementById('productMain').innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+              <h2 style="margin-bottom: 1rem;">Товар не найден</h2>
+              <p style="margin-bottom: 2rem;">Запрошенный товар не существует или был удален.</p>
+              <a href="catalog.html" class="btn btn-primary" style="display: inline-flex;">
+                Вернуться в каталог
+              </a>
+            </div>
+          `;
+          return;
+        }
+        
+        // Создаем базовые данные
+        currentProduct = {
+          ...catalogProduct,
+          description: 'Описание товара отсутствует. За подробностями обращайтесь к менеджеру.',
+          images: [catalogProduct.image],
+          sizes: ['S', 'M', 'L', 'XL'],
+          color: 'Черный',
+          material: 'Не указан',
+          inStock: true,
+          stockCount: 10,
+          rating: 4.0,
+          reviews: []
+        };
+      }
+      
+      // Отображаем товар
+      renderProduct();
+      updateCounters();
+      
+    } catch (error) {
+      console.error('Ошибка загрузки товара:', error);
+      showNotification('Ошибка загрузки товара', 'error');
+    }
+  }
+
+  // Отображение товара
+  function renderProduct() {
+    const { 
+      name, 
+      price, 
+      originalPrice, 
+      type, 
+      category, 
+      images = [], 
+      sizes = [], 
+      color,
+      material,
+      description,
+      inStock,
+      stockCount,
+      rating,
+      reviews = [],
+      deliveryTime
+    } = currentProduct;
+    
+    const isOriginal = type === 'original';
+    const badgeClass = isOriginal ? 'badge-original' : 'badge-replica';
+    const stockBadgeClass = inStock ? 'badge-stock' : 'badge-preorder';
+    const stockText = inStock ? 'В наличии' : 'Под заказ';
+    const deliveryText = deliveryTime || (isOriginal ? '7-14 дней' : '2-3 часа');
+    
+    // Рассчитываем скидку для реплик
+    const savings = originalPrice && originalPrice > price 
+      ? Math.round((1 - price / originalPrice) * 100)
+      : null;
+    
+    // Генерируем звезды рейтинга
+    const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+    
+    // Основной контент товара
+    document.getElementById('productMain').innerHTML = `
+      <!-- Галерея -->
+      <div class="product-gallery">
+        <div class="main-image-container">
+          <div class="image-badges">
+            <div class="product-badge ${badgeClass}">
+              ${isOriginal ? 'ОРИГИНАЛ' : 'РЕПЛИКА'}
+            </div>
+            <div class="product-badge ${stockBadgeClass}">
+              ${stockText} ${inStock ? `(${stockCount} шт.)` : ''}
+            </div>
+          </div>
+          <img src="${images[0] || 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80'}" 
+               class="main-image" 
+               alt="${name}"
+               onclick="openImageModal(this.src)">
+        </div>
+        
+        <div class="thumbnail-grid">
+          ${images.slice(0, 4).map((img, index) => `
+            <img src="${img}" 
+                 class="thumbnail ${index === 0 ? 'active' : ''}" 
+                 alt="Вид ${index + 1}"
+                 onclick="changeMainImage(this, ${index})">
+          `).join('')}
+        </div>
+      </div>
+      
+      <!-- Информация о товаре -->
+      <div class="product-info">
+        <div class="product-category">${category.toUpperCase()}</div>
+        <h1 class="product-title">${name}</h1>
+        
+        <div class="product-rating">
+          <div class="stars">${stars}</div>
+          <div class="rating-count">${rating.toFixed(1)} (${reviews.length} отзывов)</div>
+        </div>
+        
+        <div class="price-container">
+          <div class="current-price">${price.toLocaleString()} ₽</div>
+          ${originalPrice && originalPrice > price ? `
+            <div class="original-price">${originalPrice.toLocaleString()} ₽</div>
+            <div class="savings">Экономия ${savings}%</div>
+          ` : ''}
+        </div>
+        
+        <div class="delivery-info">
+          <div class="delivery-icon">🚚</div>
+          <div class="delivery-text">
+            <strong>Доставка:</strong> ${deliveryText}<br>
+            <small>${isOriginal ? 'Оригиналы доставляются под заказ из Москвы' : 'Реплики в наличии на складе в Якутске'}</small>
+          </div>
+        </div>
+        
+        <!-- Размеры -->
+        <div class="options-section">
+          <div class="option-title">Размер:</div>
+          <div class="size-options" id="sizeOptions">
+            ${sizes.map(size => `
+              <button class="size-btn ${selectedSize === size ? 'selected' : ''}" 
+                      onclick="selectSize('${size}')">
+                ${size}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Действия -->
+        <div class="product-actions">
+          <button class="btn btn-primary" onclick="addToCart()" ${!inStock && !isOriginal ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+            <i class="fas fa-shopping-bag"></i>
+            ${isOriginal ? 'ЗАКАЗАТЬ ОРИГИНАЛ' : (inStock ? 'ДОБАВИТЬ В КОРЗИНУ' : 'ПРЕДЗАКАЗ')}
+          </button>
+          
+          <button class="btn btn-secondary" onclick="toggleWishlistProduct()">
+            <i class="far fa-heart"></i>
+            ${isInWishlist ? 'В ИЗБРАННОМ' : 'В ИЗБРАННОЕ'}
+          </button>
+          
+          <button class="btn btn-secondary" onclick="toggleCompareProduct()">
+            <i class="fas fa-balance-scale"></i>
+            СРАВНИТЬ
+          </button>
+        </div>
+      </div>
+    `;
+    
+    // Описание и характеристики
+    document.getElementById('descriptionSection').innerHTML = `
+      <h2 class="description-title">О товаре</h2>
+      <div class="description-content">
+        ${description}
+      </div>
+      
+      <div class="specs-grid">
+        <div class="spec-item">
+          <span class="spec-label">Тип:</span>
+          <span class="spec-value">${isOriginal ? 'Оригинал' : 'Реплика'}</span>
+        </div>
+        
+        <div class="spec-item">
+          <span class="spec-label">Материал:</span>
+          <span class="spec-value">${material || 'Не указан'}</span>
+        </div>
+        
+        <div class="spec-item">
+          <span class="spec-label">Цвет:</span>
+          <span class="spec-value">${color || 'Не указан'}</span>
+        </div>
+        
+        <div class="spec-item">
+          <span class="spec-label">Наличие:</span>
+          <span class="spec-value">${inStock ? 'В наличии' : 'Под заказ'}</span>
+        </div>
+        
+        <div class="spec-item">
+          <span class="spec-label">Доставка:</span>
+          <span class="spec-value">${deliveryText}</span>
+        </div>
+        
+        ${isOriginal ? `
+          <div class="spec-item">
+            <span class="spec-label">Гарантия:</span>
+            <span class="spec-value">1 год</span>
+          </div>
+        ` : `
+          <div class="spec-item">
+            <span class="spec-label">Гарантия:</span>
+            <span class="spec-value">30 дней</span>
+          </div>
+        `}
+      </div>
+    `;
+    
+    // Отзывы
+    document.getElementById('reviewsSection').innerHTML = `
+      <div class="reviews-header">
+        <h2 class="description-title">Отзывы (${reviews.length})</h2>
+        <button class="btn btn-secondary" onclick="openReviewForm()">
+          <i class="fas fa-plus"></i> Написать отзыв
+        </button>
+      </div>
+      
+      ${reviews.length > 0 ? reviews.map(review => `
+        <div class="review-form" style="background: white; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <strong>${review.author}</strong>
+            <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+          </div>
+          <p>${review.text}</p>
+          <small style="color: var(--text-light);">${review.date}</small>
+        </div>
+      `).join('') : `
+        <div class="review-form" style="text-align: center; padding: 3rem;">
+          <i class="far fa-comment-alt" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+          <p>Пока нет отзывов. Будьте первым!</p>
+        </div>
+      `}
+    `;
+    
+    // Загружаем похожие товары
+    loadRelatedProducts();
+  }
+
+  // Смена главного изображения
+  function changeMainImage(thumbnail, index) {
+    const mainImage = document.querySelector('.main-image');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    mainImage.src = thumbnail.src;
+    thumbnails.forEach(t => t.classList.remove('active'));
+    thumbnail.classList.add('active');
+  }
+
+  // Открытие модального окна с изображением
+  function openImageModal(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    
+    modalImage.src = src;
+    modal.style.display = 'flex';
+  }
+
+  // Закрытие модального окна
+  function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+  }
+
+  // Выбор размера
+  function selectSize(size) {
+    selectedSize = size;
+    const sizeButtons = document.querySelectorAll('.size-btn');
+    sizeButtons.forEach(btn => btn.classList.remove('selected'));
+    event.target.classList.add('selected');
+  }
+
+  // Добавление в корзину
+  function addToCart() {
+    if (!currentProduct) return;
+    
+    // Для оригиналов под заказ не требуем выбора размера
+    if (!currentProduct.type === 'original' && !selectedSize && currentProduct.sizes.length > 1) {
+      showNotification('Пожалуйста, выберите размер', 'error');
+      return;
+    }
+    
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartKey = `${productId}_${selectedSize || 'default'}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: productId,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      originalPrice: currentProduct.originalPrice,
+      image: currentProduct.images[0],
+      type: currentProduct.type,
+      category: currentProduct.category,
+      size: selectedSize || currentProduct.sizes[0],
+      quantity: 1,
+      inStock: currentProduct.inStock,
+      deliveryTime: currentProduct.deliveryTime || (currentProduct.type === 'original' ? '7-14 дней' : '2-3 часа'),
+      addedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCounters();
+    
+    const message = currentProduct.type === 'original' 
+      ? `Оригинал "${currentProduct.name}" добавлен в заказ! Менеджер свяжется с вами.`
+      : `Реплика "${currentProduct.name}" добавлена в корзину!`;
+    
+    showNotification(message);
+  }
+
+  // Переключение избранного
+  function toggleWishlistProduct() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const index = wishlist.indexOf(productId);
+    
+    if (index === -1) {
+      wishlist.push(productId);
+      isInWishlist = true;
+      showNotification('Добавлено в избранное');
+    } else {
+      wishlist.splice(index, 1);
+      isInWishlist = false;
+      showNotification('Удалено из избранного');
+    }
+    
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateCounters();
+    renderProduct(); // Перерисовываем кнопку
+  }
+
+  // Переключение сравнения
+  function toggleCompareProduct() {
+    const compareList = JSON.parse(localStorage.getItem('compare')) || [];
+    
+    if (compareList.length >= 3 && !isInCompare) {
+      showNotification('Можно добавить не более 3 товаров для сравнения', 'error');
+      return;
+    }
+    
+    const index = compareList.indexOf(productId);
+    
+    if (index === -1) {
+      compareList.push(productId);
+      isInCompare = true;
+      showNotification('Добавлено к сравнению');
+    } else {
+      compareList.splice(index, 1);
+      isInCompare = false;
+      showNotification('Удалено из сравнения');
+    }
+    
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+  }
+
+  // Загрузка похожих товаров
+  function loadRelatedProducts() {
+    const catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+    
+    // Ищем товары той же категории, но не текущий
+    const related = catalogProducts
+      .filter(p => p.id !== productId && p.category === currentProduct.category)
+      .slice(0, 4);
+    
+    if (related.length === 0) return;
+    
+    document.getElementById('relatedProducts').innerHTML = `
+      <h2 class="related-title">Похожие товары</h2>
+      <div class="related-grid">
+        ${related.map(product => `
+          <div class="product-card" style="border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
+            <img src="${product.image}" 
+                 style="width: 100%; height: 200px; object-fit: cover;"
+                 alt="${product.name}">
+            <div style="padding: 1rem;">
+              <div style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                ${product.category.toUpperCase()} • ${product.type === 'original' ? 'ОРИГИНАЛ' : 'РЕПЛИКА'}
+              </div>
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">${product.name}</div>
+              <div style="font-weight: 700; color: #27ae60; margin-bottom: 1rem;">${product.price.toLocaleString()} ₽</div>
+              <button class="btn btn-secondary" style="width: 100%; padding: 0.8rem;" onclick="window.location.href='product.html?id=${product.id}'">
+                Посмотреть
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Открытие формы отзыва
+  function openReviewForm() {
+    const form = `
+      <div class="review-form">
+        <h3 style="margin-bottom: 1rem;">Оставить отзыв</h3>
+        <div style="margin-bottom: 1rem;">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">Ваша оценка:</div>
+          <div id="ratingStars" style="font-size: 1.5rem; color: #e0e0e0; cursor: pointer;">
+            <span onclick="setRating(1)">☆</span>
+            <span onclick="setRating(2)">☆</span>
+            <span onclick="setRating(3)">☆</span>
+            <span onclick="setRating(4)">☆</span>
+            <span onclick="setRating(5)">☆</span>
+          </div>
+        </div>
+        <textarea id="reviewText" placeholder="Ваш отзыв..."></textarea>
+        <input type="text" id="reviewName" placeholder="Ваше имя" style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem;">
+        <button class="btn btn-primary" onclick="submitReview()" style="width: 100%;">
+          Отправить отзыв
+        </button>
+      </div>
+    `;
+    
+    document.getElementById('reviewsSection').insertAdjacentHTML('beforeend', form);
+  }
+
+  // Установка рейтинга
+  function setRating(rating) {
+    const stars = document.querySelectorAll('#ratingStars span');
+    stars.forEach((star, index) => {
+      star.textContent = index < rating ? '★' : '☆';
+      star.style.color = index < rating ? 'var(--accent-gold)' : '#e0e0e0';
+    });
+    window.currentRating = rating;
+  }
+
+  // Отправка отзыва
+  function submitReview() {
+    const text = document.getElementById('reviewText')?.value;
+    const name = document.getElementById('reviewName')?.value;
+    const rating = window.currentRating || 5;
+    
+    if (!text || !name) {
+      showNotification('Заполните все поля', 'error');
+      return;
+    }
+    
+    // Добавляем отзыв к товару
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    if (detailedProducts[productId]) {
+      if (!detailedProducts[productId].reviews) {
+        detailedProducts[productId].reviews = [];
+      }
+      
+      detailedProducts[productId].reviews.push({
+        author: name,
+        text: text,
+        rating: rating,
+        date: new Date().toLocaleDateString('ru-RU')
+      });
+      
+      // Обновляем рейтинг
+      const reviews = detailedProducts[productId].reviews;
+      const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);
+      detailedProducts[productId].rating = (totalRating / reviews.length).toFixed(1);
+      
+      localStorage.setItem('detailedProducts', JSON.stringify(detailedProducts));
+      
+      // Перезагружаем страницу
+      loadProduct();
+      showNotification('Спасибо за ваш отзыв!');
+    }
+  }
+
+  // Показать уведомление
+  function showNotification(message, type = 'success') {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.background = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+    notification.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(notification);
+    
+    // Автоматическое скрытие
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  // Инициализация
+  document.addEventListener('DOMContentLoaded', function() {
+    loadProduct();
+    updateCounters();
+    
+    // Закрытие модального окна по клику вне картинки
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeImageModal();
+      }
+    });
+    
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeImageModal();
+      }
+    });
+  });
+</script>
+</body>
+</html>

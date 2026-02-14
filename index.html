@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="ru" id="htmlLang">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP | Оригиналы и реплики</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* === МИНИМАЛИСТИЧНАЯ ЦВЕТОВАЯ ПАЛИТРА === */
+  :root {
+    /* Основные цвета */
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-dark: #1A1A1A;
+    --gray-medium: #333333;
+    --gray-light: #666666;
+    --gray-soft: #F5F5F5;
+    
+    /* Акцентные цвета */
+    --accent: #111111;
+    --accent-light: #222222;
+    --border: #E0E0E0;
+    
+    /* Текст */
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    
+    /* Размеры */
+    --container-width: 1200px;
+    --header-height: 80px;
+    
+    /* Переходы */
+    --transition: 0.2s ease;
+    
+    /* Шрифты */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-logo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  /* === БАЗОВЫЕ СТИЛИ === */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* === ХЕДЕР === */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    font-family: var(--font-logo);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--black);
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    font-family: var(--font-logo);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-subtitle {
+    font-size: 10px;
+    color: var(--gray-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: -2px;
+  }
+
+  /* === ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА === */
+  .language-switcher {
+    position: relative;
+  }
+
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    transition: var(--transition);
+  }
+
+  .lang-btn:hover {
+    border-color: var(--gray-light);
+  }
+
+  .lang-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    min-width: 120px;
+    display: none;
+    z-index: 1000;
+    margin-top: 4px;
+  }
+
+  .lang-options.show {
+    display: block;
+  }
+
+  .lang-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-option:hover {
+    background-color: var(--gray-soft);
+  }
+
+  .lang-option.active {
+    font-weight: 500;
+  }
+
+  /* === НАВИГАЦИЯ === */
+  .nav {
+    display: flex;
+    gap: 32px;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    padding: 4px 0;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--black);
+    transition: width var(--transition);
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link.active {
+    font-weight: 600;
+  }
+
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  /* === ИКОНКИ ДЕЙСТВИЙ === */
+  .header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 18px;
+    position: relative;
+    transition: var(--transition);
+    padding: 8px;
+  }
+
+  .action-btn:hover {
+    opacity: 0.7;
+  }
+
+  .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+  }
+
+  /* === LIVE АКТИВНОСТЬ === */
+  .live-activity {
+    margin-top: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 8px;
+    background: var(--white);
+    animation: slideIn 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .live-activity::before {
+    content: 'LIVE';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ff4757;
+    color: white;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-bottom-left-radius: 4px;
+    font-weight: 600;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid var(--gray-soft);
+    animation: fadeIn 0.5s ease;
+  }
+
+  .activity-item:last-child {
+    border-bottom: none;
+  }
+
+  .activity-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .activity-text {
+    flex: 1;
+    margin-left: 12px;
+    font-size: 14px;
+  }
+
+  .activity-text strong {
+    color: var(--black);
+  }
+
+  .activity-text em {
+    color: var(--gray-medium);
+    font-style: italic;
+  }
+
+  .activity-time {
+    font-size: 12px;
+    color: var(--gray-light);
+  }
+
+  /* === ГОТОВЫЕ ОБРАЗЫ === */
+  .looks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+  }
+
+  .look-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    border: 1px solid var(--border);
+  }
+
+  .look-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  }
+
+  .look-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .look-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+
+  .look-card:hover .look-image img {
+    transform: scale(1.05);
+  }
+
+  .look-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .look-info {
+    padding: 24px;
+    background: var(--white);
+  }
+
+  .look-info h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .look-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+
+  .look-item {
+    background: var(--gray-soft);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    color: var(--text-primary);
+    display: inline-block;
+  }
+
+  .look-item:hover {
+    background: var(--border);
+    color: var(--black);
+  }
+
+  .look-price {
+    display: block;
+    font-size: 12px;
+    color: #27ae60;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* === DROP КАЛЕНДАРЬ === */
+  .drops-calendar {
+    background: var(--gray-soft);
+    padding: 40px;
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .calendar-nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  .calendar-nav-btn {
+    background: var(--white);
+    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .calendar-nav-btn:hover {
+    background: var(--border);
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .drop-day {
+    background: var(--white);
+    border: 2px solid var(--black);
+    padding: 20px;
+    position: relative;
+  }
+
+  .drop-day::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--black);
+  }
+
+  .drop-date {
+    font-size: 14px;
+    color: var(--gray-light);
+    margin-bottom: 8px;
+  }
+
+  .drop-product {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .drop-info {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .drop-waitlist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .waitlist-count {
+    font-size: 14px;
+    color: var(--gray-medium);
+  }
+
+  .waitlist-count strong {
+    color: var(--black);
+  }
+
+  /* === КАСТОМИЗАЦИЯ === */
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+  .btn-outline:hover {
+    background: var(--gray-soft);
+    border-color: var(--gray-light);
+  }
+
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* === УВЕДОМЛЕНИЯ === */
+  .notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 16px 24px;
+    min-width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .notification.show {
+    transform: translateX(0);
+  }
+
+  .notification-icon {
+    color: #27ae60;
+    font-size: 20px;
+  }
+
+  .notification-content {
+    flex: 1;
+  }
+
+  .notification-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+
+  .notification-message {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .notification-close {
+    background: none;
+    border: none;
+    color: var(--gray-light);
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* === ГЕРОЙ СЕКЦИЯ === */
+  .hero {
+    margin-top: var(--header-height);
+    padding: 80px 0;
+    background-color: var(--gray-soft);
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 40px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  /* === КНОПКИ === */
+  .btn {
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--gray-dark);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--gray-soft);
+  }
+
+  /* === СЕКЦИИ === */
+  .section {
+    padding: 80px 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* === КАРТОЧКИ ТОВАРОВ === */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+  }
+
+  .product-card {
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    position: relative;
+    cursor: pointer;
+  }
+
+  .product-card:hover {
+    border-color: var(--gray-light);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .product-badges {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+  }
+
+  .badge-tag {
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: var(--white);
+  }
+
+  .badge-replica {
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .badge-original {
+    color: var(--text-primary);
+    border: 1px solid var(--black);
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  .badge-stock {
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .product-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-info {
+    padding: 24px;
+  }
+
+  .product-category {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .product-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .product-price {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .product-actions .btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 13px;
+    min-width: 120px;
+  }
+
+  .product-wishlist {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 2;
+  }
+
+  .product-wishlist:hover {
+    background: var(--gray-soft);
+  }
+
+  .product-wishlist.active {
+    color: #ff4757;
+    border-color: #ff4757;
+  }
+
+  /* === ФИЧИ === */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 32px;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+
+  .feature-card:hover {
+    border-color: var(--gray-light);
+  }
+
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+  }
+
+  .feature-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .feature-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* === ФУТЕР === */
+  .footer {
+    background-color: var(--gray-dark);
+    color: var(--white);
+    padding: 64px 0 32px;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .footer-links {
+    list-style: none;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--white);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .footer-social a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    transition: var(--transition);
+  }
+
+  .footer-social a:hover {
+    color: var(--white);
+  }
+
+  .copyright {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+  }
+
+  /* === АДАПТИВНОСТЬ === */
+  @media (max-width: 992px) {
+    .nav {
+      display: none;
+    }
+    
+    .hero-title {
+      font-size: 40px;
+    }
+    
+    .hero-stats {
+      gap: 32px;
+    }
+    
+    .looks-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .calendar-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-wrap: wrap;
+      padding: 16px 0;
+    }
+    
+    .logo {
+      order: 1;
+    }
+    
+    .language-switcher {
+      order: 2;
+      margin-left: auto;
+    }
+    
+    .header-actions {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    
+    .hero {
+      padding: 48px 0;
+    }
+    
+    .hero-title {
+      font-size: 32px;
+    }
+    
+    .hero-stats {
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+    }
+    
+    .section {
+      padding: 48px 0;
+    }
+    
+    .section-title {
+      font-size: 24px;
+    }
+    
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .drops-calendar {
+      padding: 24px;
+    }
+    
+    .look-image {
+      height: 200px;
+    }
+    
+    .drop-waitlist {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 24px;
+    }
+    
+    .hero-subtitle {
+      font-size: 16px;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+    }
+    
+    .feature-card {
+      padding: 24px;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    
+    .product-actions {
+      flex-direction: column;
+    }
+    
+    .product-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">DROP SHOP</div>
+      </a>
+
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button class="lang-btn" id="languageToggle">
+          <span data-i18n="language.current">Русский</span>
+          <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+        </button>
+        <div class="lang-options" id="languageOptions">
+          <div class="lang-option active" data-lang="ru">
+            <span data-i18n="language.russian">Русский</span>
+          </div>
+          <div class="lang-option" data-lang="sah">
+            <span data-i18n="language.sakha">Саха тыла</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link active" data-i18n="nav.home">Главная</a>
+        <a href="catalog.html" class="nav-link" data-i18n="nav.catalog">Каталог</a>
+        <a href="about.html" class="nav-link" data-i18n="nav.about">О нас</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav.contact">Контакты</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="action-btn" onclick="toggleWishlist()">
+          <i class="far fa-heart"></i>
+          <span class="badge" id="wishlistCount">0</span>
+        </button>
+        <button class="action-btn" onclick="toggleCompare()">
+          <i class="fas fa-balance-scale"></i>
+          <span class="badge" id="compareCount">0</span>
+        </button>
+        <button class="action-btn" onclick="window.location.href='cart.html'">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Уведомление -->
+<div class="notification" id="notification">
+  <div class="notification-icon">
+    <i class="fas fa-check-circle"></i>
+  </div>
+  <div class="notification-content">
+    <div class="notification-title" id="notificationTitle">Уведомление</div>
+    <div class="notification-message" id="notificationMessage">Сообщение</div>
+  </div>
+  <button class="notification-close" onclick="hideNotification()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title" data-i18n="hero.title">Оригиналы и реплики</h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">Качественные товары с доставкой. Реплики в наличии, оригиналы под заказ. Гарантия качества и проверенные поставщики.</p>
+      
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value">6+</div>
+          <div class="stat-label" data-i18n="stats.years">Лет на рынке</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">2K+</div>
+          <div class="stat-label" data-i18n="stats.clients">Клиентов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">98%</div>
+          <div class="stat-label" data-i18n="stats.rating">Рейтинг</div>
+        </div>
+      </div>
+      
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="window.location.href='catalog.html'">
+          <span data-i18n="hero.button">Смотреть каталог</span>
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='about.html'">
+          <span data-i18n="buttons.about">О нас</span>
+        </button>
+      </div>
+
+      <!-- Live Activity -->
+      <div class="live-activity" id="liveActivity">
+        <div class="activity-item">
+          <div class="activity-avatar">И</div>
+          <div class="activity-text">
+            <strong>Иван из Москвы</strong> только что заказал <em>Air Jordan 1</em>
+          </div>
+          <div class="activity-time">2 мин назад</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-avatar">М</div>
+          <div class="activity-text">
+            <strong>Мария из СПб</strong> добавила в избранное <em>New Balance 2002</em>
+          </div>
+          <div class="activity-time">5 мин назад</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Products -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="products.label">Коллекция</div>
+      <h2 class="section-title" data-i18n="products.popular">Популярные товары</h2>
+      <p class="section-subtitle" data-i18n="products.subtitle">Тщательно отобранные товары из наших коллекций. Каждый предмет проходит проверку перед отправкой.</p>
+    </div>
+    
+    <div class="products-grid" id="popularProducts">
+      <!-- Products loaded by JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" style="background-color: var(--gray-soft);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="features.label">Преимущества</div>
+      <h2 class="section-title" data-i18n="features.title">Почему выбирают нас</h2>
+      <p class="section-subtitle" data-i18n="features.subtitle">Мы создаем сервис, который ценится за внимание к деталям и индивидуальный подход.</p>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title" data-i18n="features.quality">Гарантия качества</h3>
+        <p class="feature-description" data-i18n="features.qualityDesc">Каждый товар проходит проверку. Оригиналы с сертификатами, реплики с контролем качества.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shipping-fast"></i>
+        </div>
+        <h3 class="feature-title" data-i18n="features.delivery">Быстрая доставка</h3>
+        <p class="feature-description" data-i18n="features.deliveryDesc">Реплики доставляются за 1-3 дня, оригиналы — 7-14 дней. Работаем по всей России.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <h3 class="feature-title" data-i18n="features.service">Персональный сервис</h3>
+        <p class="feature-description" data-i18n="features.serviceDesc">Консультации по подбору товаров. Помощь в выборе размера и модели.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h3 class="feature-title" data-i18n="features.security">Надежность</h3>
+        <p class="feature-description" data-i18n="features.securityDesc">Работаем с 2018 года. Проверенные поставщики и гарантия на все товары.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Готовые образы -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Inspiration</div>
+      <h2 class="section-title">Одевай как звезда</h2>
+      <p class="section-subtitle">Готовые образы от наших стилистов</p>
+    </div>
+    
+    <div class="looks-grid" id="looksContainer">
+      <!-- Looks loaded from localStorage -->
+    </div>
+  </div>
+</section>
+
+<!-- Product Types -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="productTypes.label">Категории</div>
+      <h2 class="section-title" data-i18n="productTypes.title">Оригиналы и реплики</h2>
+      <p class="section-subtitle" data-i18n="productTypes.subtitle">Выберите то, что подходит именно вам. Оригиналы для коллекций, реплики для повседневной носки.</p>
+    </div>
+    
+    <div class="products-grid">
+      <div class="product-card" onclick="viewProduct(201)">
+        <div class="product-badges">
+          <span class="badge-tag badge-replica" data-i18n="productTypes.replica">Реплика</span>
+          <span class="badge-tag badge-stock" data-i18n="productTypes.inStock">В наличии</span>
+        </div>
+        <div class="product-wishlist" onclick="toggleProductWishlist(201, event)">
+          <i class="far fa-heart" id="wishlistIcon-201"></i>
+        </div>
+        <div class="product-image-container">
+          <img src="https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800" class="product-image" alt="Nike Air Jordan 1">
+        </div>
+        <div class="product-info">
+          <div class="product-category" data-i18n="productCategories.shoes">Обувь</div>
+          <h3 class="product-name">Nike Air Jordan 1 High</h3>
+          <div class="product-price">12 990 ₽</div>
+          <div class="product-actions">
+            <button class="btn btn-primary" onclick="addToCart(201, 'replica', event)">
+              <span data-i18n="buttons.addToCart">В корзину</span>
+            </button>
+            <button class="btn btn-secondary" onclick="addToCompare(201, event)">
+              <span data-i18n="buttons.compare">Сравнить</span>
+            </button>
+            <button class="btn btn-outline" onclick="openCustomizer(201, event)">
+              <i class="fas fa-paint-brush"></i>
+              <span>Кастомизировать</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card" onclick="viewProduct(102)">
+        <div class="product-badges">
+          <span class="badge-tag badge-original" data-i18n="productTypes.original">Оригинал</span>
+          <span class="badge-tag" style="border-color: var(--gray-light); color: var(--gray-light);" data-i18n="productTypes.preorder">Под заказ</span>
+        </div>
+        <div class="product-wishlist" onclick="toggleProductWishlist(102, event)">
+          <i class="far fa-heart" id="wishlistIcon-102"></i>
+        </div>
+        <div class="product-image-container">
+          <img src="https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800" class="product-image" alt="New Balance 2002">
+        </div>
+        <div class="product-info">
+          <div class="product-category" data-i18n="productCategories.shoes">Обувь</div>
+          <h3 class="product-name">New Balance 2002 Protection</h3>
+          <div class="product-price">34 990 ₽</div>
+          <div class="product-actions">
+            <button class="btn btn-primary" onclick="addToCart(102, 'original', event)">
+              <span data-i18n="buttons.order">Заказать</span>
+            </button>
+            <button class="btn btn-secondary" onclick="addToCompare(102, event)">
+              <span data-i18n="buttons.compare">Сравнить</span>
+            </button>
+            <button class="btn btn-outline" onclick="openCustomizer(102, event)">
+              <i class="fas fa-paint-brush"></i>
+              <span>Кастомизировать</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Drop календарь -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Анонсы</div>
+      <h2 class="section-title">Ближайшие дропы</h2>
+      <p class="section-subtitle">Эксклюзивные релизы и лимитированные коллекции</p>
+    </div>
+    
+    <div class="drops-calendar">
+      <div class="calendar-header">
+        <div>
+          <h3>Июнь 2024</h3>
+          <p>Даты выхода новых коллекций</p>
+        </div>
+        <div class="calendar-nav">
+          <button class="calendar-nav-btn" onclick="prevMonth()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="calendar-nav-btn" onclick="nextMonth()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="calendar-grid">
+        <div class="drop-day">
+          <div class="drop-date">15 июня</div>
+          <div class="drop-product">Nike x Travis Scott Air Jordan 1</div>
+          <div class="drop-info">Эксклюзивная коллаборация, лимитированный тираж</div>
+          <div class="drop-waitlist">
+            <div class="waitlist-count">
+              <strong>456 человек</strong> в листе ожидания
+            </div>
+            <button class="btn btn-primary btn-small" onclick="joinWaitlist('nike-ts')">
+              Записаться
+            </button>
+          </div>
+        </div>
+        
+        <div class="drop-day">
+          <div class="drop-date">22 июня</div>
+          <div class="drop-product">Balenciaga Triple S "Neon"</div>
+          <div class="drop-info">Новая цветовая палитра, только 100 пар</div>
+          <div class="drop-waitlist">
+            <div class="waitlist-count">
+              <strong>289 человек</strong> в листе ожидания
+            </div>
+            <button class="btn btn-primary btn-small" onclick="joinWaitlist('balenciaga-neon')">
+              Записаться
+            </button>
+          </div>
+        </div>
+        
+        <div class="drop-day">
+          <div class="drop-date">30 июня</div>
+          <div class="drop-product">Adidas Yeezy 350 V2 "Glow"</div>
+          <div class="drop-info">Светящаяся в темноте версия</div>
+          <div class="drop-waitlist">
+            <div class="waitlist-count">
+              <strong>521 человек</strong> в листе ожидания
+            </div>
+            <button class="btn btn-primary btn-small" onclick="joinWaitlist('yeezy-glow')">
+              Записаться
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3 data-i18n="footer.about">DROP SHOP</h3>
+        <ul class="footer-links">
+          <li><a href="about.html" data-i18n="nav.about">О нас</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Контакты</a></li>
+          <li><a href="delivery.html" data-i18n="footer.delivery">Доставка и оплата</a></li>
+          <li><a href="guarantee.html" data-i18n="footer.guarantee">Гарантия</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3 data-i18n="footer.catalog">Каталог</h3>
+        <ul class="footer-links">
+          <li><a href="catalog.html?type=original" data-i18n="productTypes.original">Оригиналы</a></li>
+          <li><a href="catalog.html?type=replica" data-i18n="productTypes.replica">Реплики</a></li>
+          <li><a href="catalog.html?category=shoes" data-i18n="productCategories.shoes">Обувь</a></li>
+          <li><a href="catalog.html?category=clothes" data-i18n="productCategories.clothes">Одежда</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3 data-i18n="footer.contacts">Контакты</h3>
+        <ul class="footer-links">
+          <li><a href="tel:+79991234567">+7 (999) 123-45-67</a></li>
+          <li><a href="mailto:info@dropshop.ru">info@dropshop.ru</a></li>
+          <li><a href="#" data-i18n="contacts.address">Якутск, ул. Примерная, 15</a></li>
+          <li><a href="#" data-i18n="contacts.hours">Ежедневно 10:00-20:00</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-vk"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>© 2024 DROP SHOP. <span data-i18n="footer.rights">Все права защищены.</span></p>
+      <p style="margin-top: 8px; font-size: 11px;" data-i18n="footer.slogan">Оригиналы и реплики с 2018 года</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========== МУЛЬТИЯЗЫЧНАЯ ПОДДЕРЖКА ==========
+  
+  // Объект с полными переводами
+  const translations = {
+    ru: {
+      "language.current": "Русский",
+      "language.russian": "Русский",
+      "language.sakha": "Саха тыла",
+      "nav.home": "Главная",
+      "nav.catalog": "Каталог",
+      "nav.about": "О нас",
+      "nav.contact": "Контакты",
+      "hero.title": "Оригиналы и реплики",
+      "hero.subtitle": "Качественные товары с доставкой. Реплики в наличии, оригиналы под заказ. Гарантия качества и проверенные поставщики.",
+      "hero.button": "Смотреть каталог",
+      "stats.years": "Лет на рынке",
+      "stats.clients": "Клиентов",
+      "stats.rating": "Рейтинг",
+      "products.label": "Коллекция",
+      "products.popular": "Популярные товары",
+      "products.subtitle": "Тщательно отобранные товары из наших коллекций. Каждый предмет проходит проверку перед отправкой.",
+      "features.label": "Преимущества",
+      "features.title": "Почему выбирают нас",
+      "features.subtitle": "Мы создаем сервис, который ценится за внимание к деталям и индивидуальный подход.",
+      "features.quality": "Гарантия качества",
+      "features.qualityDesc": "Каждый товар проходит проверку. Оригиналы с сертификатами, реплики с контролем качества.",
+      "features.delivery": "Быстрая доставка",
+      "features.deliveryDesc": "Реплики доставляются за 1-3 дня, оригиналы — 7-14 дней. Работаем по всей России.",
+      "features.service": "Персональный сервис",
+      "features.serviceDesc": "Консультации по подбору товаров. Помощь в выборе размера и модели.",
+      "features.security": "Надежность",
+      "features.securityDesc": "Работаем с 2018 года. Проверенные поставщики и гарантия на все товары.",
+      "productTypes.label": "Категории",
+      "productTypes.title": "Оригиналы и реплики",
+      "productTypes.subtitle": "Выберите то, что подходит именно вам. Оригиналы для коллекций, реплики для повседневной носки.",
+      "productTypes.replica": "Реплика",
+      "productTypes.original": "Оригинал",
+      "productTypes.preorder": "Под заказ",
+      "productTypes.inStock": "В наличии",
+      "productCategories.shoes": "Обувь",
+      "productCategories.clothes": "Одежда",
+      "buttons.addToCart": "В корзину",
+      "buttons.order": "Заказать",
+      "buttons.details": "Подробнее",
+      "buttons.about": "О нас",
+      "buttons.compare": "Сравнить",
+      "footer.about": "DROP SHOP",
+      "footer.catalog": "Каталог",
+      "footer.contacts": "Контакты",
+      "footer.delivery": "Доставка и оплата",
+      "footer.guarantee": "Гарантия",
+      "footer.rights": "Все права защищены.",
+      "footer.slogan": "Оригиналы и реплики с 2018 года",
+      "contacts.address": "Якутск, ул. Примерная, 15",
+      "contacts.hours": "Ежедневно 10:00-20:00",
+      "notifications.addedToCart": "добавлен в корзину",
+      "notifications.addedToWishlist": "добавлен в избранное",
+      "notifications.removedFromWishlist": "удален из избранного",
+      "notifications.addedToCompare": "добавлен для сравнения",
+      "notifications.productNotFound": "Товар не найден",
+      "notifications.wishlistEmpty": "Добавьте товары в избранное через каталог",
+      "notifications.compareNeedTwo": "Для сравнения требуется минимум 2 товаров",
+      "notifications.compareMaxFour": "Можно сравнить не более 4 товаров",
+      "notifications.customizationStarted": "Кастомизация начата",
+      "notifications.lookAdded": "Образ добавлен в корзину",
+      "notifications.waitlistJoined": "Вы добавлены в лист ожидания"
+    },
+    
+    sah: {
+      "language.current": "Саха тыла",
+      "language.russian": "Нууччалыы",
+      "language.sakha": "Саха тыла",
+      "nav.home": "Сүрүн сирэй",
+      "nav.catalog": "Каталог",
+      "nav.about": "Биһигэр",
+      "nav.contact": "Ситим",
+      "hero.title": "Оригиналлар уонна репликалар",
+      "hero.subtitle": "Качестволаах товардар таһаарыылаах. Репликалар бааллар, оригиналлар закааска. Качество гарантията уонна билинэр поставщиктар.",
+      "hero.button": "Каталогу көр",
+      "stats.years": "Рынокка сыллар",
+      "stats.clients": "Клиент",
+      "stats.rating": "Рейтинг",
+      "products.label": "Коллекция",
+      "products.popular": "Бүрдэммит товардар",
+      "products.subtitle": "Биһиги коллекцияларбыттан талыллыбыт товардар. Бары предметтар ыытыллар иннинэ ырытыллар.",
+      "features.label": "Туһалаах өрүттэр",
+      "features.title": "Тоҕо биһигини талыыллар",
+      "features.subtitle": "Деталларга болҕомто уонна клиент барытыгар аналлаах сыһыан сыаналанары сервиһи айабыт.",
+      "features.quality": "Качество гарантията",
+      "features.qualityDesc": "Товар барыта ырытыллар. Оригиналлар сертификаттаах, репликалар качествобын хонтуруоллаах.",
+      "features.delivery": "Түргэн таһаарыы",
+      "features.deliveryDesc": "Репликалар 1-3 хонукка, оригиналлар — 7-14 хонукка таһаарыллар. Россия бары өттүгэр үлэлиир.",
+      "features.service": "Персональнай сервис",
+      "features.serviceDesc": "Товар талыытыгар консультация. Кээмэй уонна модель талыытыгар көмө.",
+      "features.security": "Надежнайдык",
+      "features.securityDesc": "2018 сылтан үлэлиибит. Билинэр поставщиктар уонна бары товардарга гарантия.",
+      "productTypes.label": "Категориялар",
+      "productTypes.title": "Оригиналлар уонна репликалар",
+      "productTypes.subtitle": "Эйиэхэ сөп түбэһэр товары тал. Оригиналлар коллекцияҕа, репликалар күннээҕи туһаныыга.",
+      "productTypes.replica": "Реплика",
+      "productTypes.original": "Оригинал",
+      "productTypes.preorder": "Закааска",
+      "productTypes.inStock": "Баар",
+      "productCategories.shoes": "Атаҕа",
+      "productCategories.clothes": "Таҥас",
+      "buttons.addToCart": "Корзинаҕа",
+      "buttons.order": "Закаастаа",
+      "buttons.details": "Сиһилии",
+      "buttons.about": "Биһигэр",
+      "buttons.compare": "Тэҥнээ",
+      "footer.about": "DROP SHOP",
+      "footer.catalog": "Каталог",
+      "footer.contacts": "Ситим",
+      "footer.delivery": "Таһаарыы уонна төлөбүр",
+      "footer.guarantee": "Гарантия",
+      "footer.rights": "Бары бырааптар харыстаммыт.",
+      "footer.slogan": "Оригиналлар уонна репликалар 2018 сылтан",
+      "contacts.address": "Дьокуускай, Холобур уул., 15",
+      "contacts.hours": "Күн аайы 10:00-20:00",
+      "notifications.addedToCart": "корзинаҕа эбилиннэ",
+      "notifications.addedToWishlist": "талыырга эбилиннэ",
+      "notifications.removedFromWishlist": "талыыртан сотуллунна",
+      "notifications.addedToCompare": "тэҥнээбиккэ эбилиннэ",
+      "notifications.productNotFound": "Товар көстүбэтэ",
+      "notifications.wishlistEmpty": "Каталог көмөтүнэн талбырга товардары эбии",
+      "notifications.compareNeedTwo": "Хардыыга наадыйар 2 товары эбии",
+      "notifications.compareMaxFour": "4 товардары эрэ тэҥнээххэ сөп",
+      "notifications.customizationStarted": "Кастомизация саҕаламмыта",
+      "notifications.lookAdded": "Образ корзинаҕа эбилиннэ",
+      "notifications.waitlistJoined": "Эн кэтэрии тиһигэр эбилиннин"
+    }
+  };
+
+  // Текущий язык
+  let currentLanguage = localStorage.getItem('language') || 'ru';
+
+  // ========== УВЕДОМЛЕНИЯ ==========
+  function showNotification(title, message) {
+    const notification = document.getElementById('notification');
+    const notificationTitle = document.getElementById('notificationTitle');
+    const notificationMessage = document.getElementById('notificationMessage');
+    
+    const translatedTitle = translations[currentLanguage][title] || title;
+    const translatedMessage = translations[currentLanguage][message] || message;
+    
+    notificationTitle.textContent = translatedTitle;
+    notificationMessage.textContent = translatedMessage;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 5000);
+  }
+
+  function hideNotification() {
+    document.getElementById('notification').classList.remove('show');
+  }
+
+  // ========== МУЛЬТИЯЗЫЧНАЯ ПОДДЕРЖКА ==========
+  
+  function switchLanguage(lang) {
+    if (!translations[lang]) return;
+    
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    
+    document.getElementById('htmlLang').setAttribute('lang', lang);
+    
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        element.textContent = translations[lang][key];
+      }
+    });
+    
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.classList.remove('active');
+      if (option.getAttribute('data-lang') === lang) {
+        option.classList.add('active');
+      }
+    });
+    
+    const currentLangBtn = document.querySelector('#languageToggle span[data-i18n="language.current"]');
+    if (currentLangBtn && translations[lang]["language.current"]) {
+      currentLangBtn.textContent = translations[lang]["language.current"];
+    }
+    
+    loadPopularProducts();
+  }
+
+  function toggleLanguageDropdown() {
+    const options = document.getElementById('languageOptions');
+    options.classList.toggle('show');
+  }
+
+  document.addEventListener('click', function(event) {
+    const languageSwitcher = document.querySelector('.language-switcher');
+    if (!languageSwitcher.contains(event.target)) {
+      const options = document.getElementById('languageOptions');
+      options.classList.remove('show');
+    }
+  });
+
+  // ========== ОСНОВНОЙ ФУНКЦИОНАЛ ==========
+  
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+
+  function updateCounters() {
+    const wishlistCount = wishlist.length;
+    document.getElementById('wishlistCount').textContent = wishlistCount > 99 ? '99+' : wishlistCount;
+    
+    const compareCount = compareList.length;
+    document.getElementById('compareCount').textContent = compareCount > 99 ? '99+' : compareCount;
+    
+    const cartItems = Object.values(cart).reduce((sum, item) => sum + (item.quantity || 1), 0);
+    document.getElementById('cartCount').textContent = cartItems > 99 ? '99+' : cartItems;
+  }
+
+  // Просмотр страницы товара
+  function viewProduct(productId) {
+    // Сохраняем ID товара для использования на странице продукта
+    localStorage.setItem('currentProductId', productId);
+    window.location.href = 'product.html?id=' + productId;
+  }
+
+  // Добавить в корзину с остановкой всплытия
+  function addToCart(productId, type = 'replica', event) {
+    if (event) event.stopPropagation();
+    
+    const products = getDefaultProducts();
+    const product = products.find(p => p.id == productId);
+    
+    if (!product) {
+      showNotification("notifications.productNotFound", "notifications.productNotFound");
+      return;
+    }
+    
+    const cartKey = `${productId}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      type: product.type || type,
+      category: product.category,
+      quantity: 1,
+      deliveryTime: type === 'original' ? '7-14 дней' : '1-3 дня'
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCounters();
+    
+    updateLiveActivity({
+      name: getRandomName(),
+      city: getRandomCity(),
+      action: "заказал",
+      product: product.name
+    });
+    
+    showNotification(product.name, "notifications.addedToCart");
+  }
+
+  // Работа с избранным с остановкой всплытия
+  function toggleProductWishlist(productId, event) {
+    if (event) event.stopPropagation();
+    
+    const icon = document.getElementById(`wishlistIcon-${productId}`);
+    const index = wishlist.indexOf(productId);
+    
+    if (index === -1) {
+      wishlist.push(productId);
+      icon.classList.remove('far');
+      icon.classList.add('fas', 'active');
+      showNotification("Избранное", "notifications.addedToWishlist");
+      
+      const product = getDefaultProducts().find(p => p.id == productId);
+      if (product) {
+        updateLiveActivity({
+          name: getRandomName(),
+          city: getRandomCity(),
+          action: "добавил в избранное",
+          product: product.name
+        });
+      }
+    } else {
+      wishlist.splice(index, 1);
+      icon.classList.remove('fas', 'active');
+      icon.classList.add('far');
+      showNotification("Избранное", "notifications.removedFromWishlist");
+    }
+    
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateCounters();
+  }
+
+  // Добавить для сравнения с остановкой всплытия
+  function addToCompare(productId, event) {
+    if (event) event.stopPropagation();
+    
+    if (compareList.length >= 4) {
+      showNotification("Сравнение", "notifications.compareMaxFour");
+      return;
+    }
+    
+    if (!compareList.includes(productId)) {
+      compareList.push(productId);
+      localStorage.setItem('compare', JSON.stringify(compareList));
+      updateCounters();
+      showNotification("Сравнение", "notifications.addedToCompare");
+    }
+  }
+
+  // Получить стандартные товары
+  function getDefaultProducts() {
+    return [
+      {
+        id: 201,
+        name: "Nike Air Jordan 1 High",
+        price: 12990,
+        type: "replica",
+        category: "обувь",
+        image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+        sizes: ["40", "41", "42", "43", "44"],
+        inStock: true
+      },
+      {
+        id: 102,
+        name: "New Balance 2002 Protection",
+        price: 34990,
+        type: "original",
+        category: "обувь",
+        image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800",
+        sizes: ["40", "41", "42", "43", "44"],
+        inStock: false,
+        deliveryTime: "7-14 дней"
+      },
+      {
+        id: 103,
+        name: "Adidas Yeezy 700",
+        price: 19990,
+        type: "replica",
+        category: "обувь",
+        image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+        sizes: ["39", "40", "41", "42", "43"],
+        inStock: true
+      },
+      {
+        id: 104,
+        name: "Balenciaga Triple S",
+        price: 79990,
+        type: "original",
+        category: "обувь",
+        image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80",
+        sizes: ["41", "42", "43", "44", "45"],
+        inStock: false,
+        deliveryTime: "10-21 день"
+      },
+      {
+        id: 301,
+        name: "Oversize Hoodie Black",
+        price: 7990,
+        type: "replica",
+        category: "одежда",
+        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+        sizes: ["S", "M", "L", "XL"],
+        inStock: true
+      },
+      {
+        id: 302,
+        name: "White Basic Tee",
+        price: 2990,
+        type: "replica",
+        category: "одежда",
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+        sizes: ["S", "M", "L", "XL"],
+        inStock: true
+      }
+    ];
+  }
+
+  // Избранное
+  function toggleWishlist() {
+    if (wishlist.length === 0) {
+      showNotification("notifications.wishlistEmpty", "notifications.wishlistEmpty");
+      return;
+    }
+    window.location.href = 'wishlist.html';
+  }
+
+  // Сравнение
+  function toggleCompare() {
+    if (compareList.length < 2) {
+      showNotification("notifications.compareNeedTwo", "notifications.compareNeedTwo");
+      return;
+    }
+    window.location.href = 'compare.html';
+  }
+
+  // Загрузка популярных товаров
+  function loadPopularProducts() {
+    const container = document.getElementById('popularProducts');
+    const products = getDefaultProducts();
+    const t = translations[currentLanguage];
+    
+    container.innerHTML = products.map(product => {
+      const isInWishlist = wishlist.includes(product.id);
+      
+      return `
+      <div class="product-card" onclick="viewProduct(${product.id})">
+        <div class="product-badges">
+          <span class="badge-tag ${product.type === 'original' ? 'badge-original' : 'badge-replica'}">
+            ${product.type === 'original' ? t["productTypes.original"] : t["productTypes.replica"]}
+          </span>
+          <span class="badge-tag badge-stock">
+            ${product.inStock ? t["productTypes.inStock"] : t["productTypes.preorder"]}
+          </span>
+        </div>
+        <div class="product-wishlist" onclick="toggleProductWishlist(${product.id}, event)">
+          <i class="${isInWishlist ? 'fas active' : 'far'} fa-heart" id="wishlistIcon-${product.id}"></i>
+        </div>
+        <div class="product-image-container">
+          <img src="${product.image}" class="product-image" alt="${product.name}">
+        </div>
+        <div class="product-info">
+          <div class="product-category">${product.category === 'обувь' ? t["productCategories.shoes"] : t["productCategories.clothes"]}</div>
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-price">${product.price.toLocaleString()} ₽</div>
+          <div class="product-actions">
+            <button class="btn btn-primary" onclick="addToCart(${product.id}, '${product.type}', event)">
+              ${product.type === 'original' ? t["buttons.order"] : t["buttons.addToCart"]}
+            </button>
+            <button class="btn btn-secondary" onclick="addToCompare(${product.id}, event)">
+              ${t["buttons.compare"]}
+            </button>
+            <button class="btn btn-outline" onclick="openCustomizer(${product.id}, event)">
+              <i class="fas fa-paint-brush"></i>
+              <span>Кастомизировать</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `}).join('');
+  }
+
+  // ========== НОВЫЕ ФУНКЦИИ ==========
+
+  // Live Activity
+  const names = ["Алексей", "Мария", "Дмитрий", "Ольга", "Иван", "Анна", "Сергей", "Екатерина"];
+  const cities = ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань", "Нижний Новгород", "Красноярск", "Владивосток"];
+
+  function getRandomName() {
+    return names[Math.floor(Math.random() * names.length)];
+  }
+
+  function getRandomCity() {
+    return cities[Math.floor(Math.random() * cities.length)];
+  }
+
+  function updateLiveActivity(activity) {
+    const liveActivity = document.getElementById('liveActivity');
+    const avatarLetter = activity.name.charAt(0);
+    
+    const activityHTML = `
+      <div class="activity-item">
+        <div class="activity-avatar">${avatarLetter}</div>
+        <div class="activity-text">
+          <strong>${activity.name} из ${activity.city}</strong> ${activity.action} <em>${activity.product}</em>
+        </div>
+        <div class="activity-time">только что</div>
+      </div>
+    `;
+    
+    liveActivity.innerHTML = activityHTML + liveActivity.innerHTML;
+    
+    const items = liveActivity.querySelectorAll('.activity-item');
+    if (items.length > 3) {
+      items[items.length - 1].remove();
+    }
+  }
+
+  // Загрузка готовых образов
+  function loadLooks() {
+    const looks = JSON.parse(localStorage.getItem('adminLooks')) || [];
+    const container = document.getElementById('looksContainer');
+    
+    if (looks.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-tshirt" style="font-size: 3rem; color: var(--gray-light); margin-bottom: 1rem;"></i>
+          <h3>Образы скоро появятся</h3>
+          <p>Наши стилисты готовят новые коллекции</p>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = looks.map(look => {
+      const productNames = look.products.map(productId => {
+        const product = getProductById(productId);
+        return product ? product.name : 'Товар';
+      });
+      
+      return `
+        <div class="look-card">
+          <div class="look-image">
+            <img src="${look.image || 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80'}" alt="${look.name}">
+            <div class="look-tag">${look.tag || 'Образ'}</div>
+          </div>
+          <div class="look-info">
+            <h3>${look.name}</h3>
+            <div class="look-items">
+              ${productNames.map((name, index) => 
+                `<a href="#" class="look-item" onclick="viewProduct(${look.products[index]})">${name}</a>`
+              ).join(' + ')}
+            </div>
+            <button class="btn btn-primary" onclick="addLookToCart([${look.products.join(',')}])">
+              Купить весь образ
+              <span class="look-price">-15% на комплект</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function getProductById(productId) {
+    let products = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+    let product = products.find(p => p.id == productId);
+    
+    if (!product) {
+      products = getDefaultProducts();
+      product = products.find(p => p.id == productId);
+    }
+    
+    return product;
+  }
+
+  // Готовые образы
+  function addLookToCart(productIds) {
+    const products = getDefaultProducts();
+    let totalPrice = 0;
+    let addedCount = 0;
+    
+    productIds.forEach(productId => {
+      const product = products.find(p => p.id == productId);
+      if (product) {
+        addToCart(productId, product.type || 'replica');
+        totalPrice += product.price;
+        addedCount++;
+      }
+    });
+    
+    const discount = totalPrice * 0.15;
+    showNotification("notifications.lookAdded", `Добавлено ${addedCount} товаров. Скидка 15% = -${Math.round(discount)} ₽`);
+  }
+
+  // Кастомизация
+  function openCustomizer(productId, event) {
+    if (event) event.stopPropagation();
+    
+    const product = getDefaultProducts().find(p => p.id == productId);
+    if (product) {
+      showNotification("Кастомизация", "notifications.customizationStarted");
+      setTimeout(() => {
+        if (confirm(`Хотите заказать кастомизацию ${product.name}? +40% к стоимости`)) {
+          const customPrice = Math.round(product.price * 1.4);
+          showNotification("Кастомизация", `Запрос отправлен! Примерная стоимость: ${customPrice.toLocaleString()} ₽`);
+        }
+      }, 500);
+    }
+  }
+
+  // Drop календарь
+  function joinWaitlist(dropId) {
+    showNotification("Лист ожидания", "notifications.waitlistJoined");
+  }
+
+  function prevMonth() {
+    showNotification("Календарь", "Переходим к предыдущему месяцу");
+  }
+
+  function nextMonth() {
+    showNotification("Календарь", "Переходим к следующему месяцу");
+  }
+
+  // Симуляция живой активности
+  function simulateLiveActivity() {
+    const activities = [
+      { action: "добавил в корзину", product: "Nike Air Force 1" },
+      { action: "оставил отзыв 5⭐", product: "Adidas Yeezy" },
+      { action: "заказал", product: "Balenciaga Triple S" },
+      { action: "добавил в сравнение", product: "New Balance 2002" }
+    ];
+    
+    setTimeout(() => {
+      updateLiveActivity({
+        name: getRandomName(),
+        city: getRandomCity(),
+        action: activities[0].action,
+        product: activities[0].product
+      });
+    }, 3000);
+    
+    setInterval(() => {
+      const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+      updateLiveActivity({
+        name: getRandomName(),
+        city: getRandomCity(),
+        action: randomActivity.action,
+        product: randomActivity.product
+      });
+    }, 30000);
+  }
+
+  // Инициализация при загрузке страницы
+  document.addEventListener('DOMContentLoaded', function() {
+    switchLanguage(currentLanguage);
+    
+    document.getElementById('languageToggle').addEventListener('click', toggleLanguageDropdown);
+    
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const lang = this.getAttribute('data-lang');
+        switchLanguage(lang);
+        toggleLanguageDropdown();
+      });
+    });
+    
+    wishlist.forEach(productId => {
+      const icon = document.getElementById(`wishlistIcon-${productId}`);
+      if (icon) {
+        icon.classList.remove('far');
+        icon.classList.add('fas', 'active');
+      }
+    });
+    
+    updateCounters();
+    loadPopularProducts();
+    loadLooks();
+    simulateLiveActivity();
+  });
+</script>
+</body>
+</html>
